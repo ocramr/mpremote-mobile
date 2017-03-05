@@ -1,5 +1,5 @@
 # mpremote-mobile
-MPD Client for mobile devices
+MPD Client developed with Cordova/Ionic using TCP Sockets Plugin (blocshop/socketsforcordova)
 
 #Prerequisites - Installation
 
