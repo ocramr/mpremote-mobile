@@ -1,0 +1,25 @@
+<ion-view view-title="MPRemote">
+  <ion-content class="padding">
+
+    <h1 class="text-center">{{ player.isConnected ? player.host : 'MPRemote' }}</h1>
+    <div ng-if="player.isConnected">
+      <button id="next" ng-click="next()">Next</button>
+      <button id="prev" ng-click="prev()">Previous</button>
+      <button id="pause" ng-click="pause()">Pause</button>
+      <button id="play" ng-click="play()">Play</button>
+      <button id="stop" ng-click="stop()">Stop</button>
+      <button id="clear" ng-click="clear()">Clear</button>
+      <div>
+        <span id="currentVol"></span><button id="volMinus" ng-click="volMinus()">Vol -</button><button  id="volPlus" ng-click="volPlus()">Vol+</button>
+      </div>
+      <div class="padding list">
+        <div ng-repeat="song in player.playlist" class="item" ng-click="playAt($index)">
+          {{song.file}}</div>
+      </div>
+    </div>
+    <div ng-if="!player.isConnected">
+      <p><strong>Le client n'est pas connecté</strong></p>
+    </div>
+
+  </ion-content>
+</ion-view>
