@@ -1,5 +1,6 @@
 # mpremote-mobile
-MPD Client developed with Cordova/Ionic using TCP Sockets Plugin (blocshop/socketsforcordova)
+MPD Client developed with Cordova/Ionic using TCP Sockets Plugin (https://github.com/blocshop/sockets-for-cordova) 
+and adapting Node-Mpd library (https://github.com/Prior99/node-mpd)
 
 #Prerequisites - Installation
 
