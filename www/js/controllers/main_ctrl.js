@@ -60,66 +60,6 @@ function main_ctrl($scope, $ionicPlatform, MPDService) {
             MPDService.volMinus();
         };
 
-
-
-        /*    alertPopup.then(function(res) {
-         showAlert('Thank you for not eating my delicious ice cream cone');
-         });
-         };
-
-         var socket = {};
-
-         $scope.connect = function (element) {
-         if (element)
-         connectToCustomHost(element.host, element.port)
-         };
-
-         var connectToCustomHost = function (host, port) {
-         if (host == "" || port == "") {
-         showAlert("Host and port cannot be empty.");
-         }
-         else {
-         connectToHost(host, parseInt(port));
-         }
-         };
-
-         var connectToHost = function (host, port) {
-         socket = new Socket();
-         socket.onData = receiveData;
-         socket.onError = function (errorMessage) {
-         showAlert("Error occured, error: " + errorMessage);
-         };
-         socket.onClose = function (hasError) {
-         showAlert("Socket closed, hasErrors=" + hasError);
-         setDisconnected();
-         };
-         socket.open(
-         host,
-         port,
-         setConnected,
-         function (errorMessage) {
-         showAlert("Error during connection, error: " + errorMessage);
-         });
-         };
-
-         function receiveData(data) {
-         var chars = new Array(data.length);
-         for (var i = 0; i < data.length; i++) {
-         chars.push(String.fromCharCode(data[i]));
-         }
-         var dataString = chars.join("");
-         dataString.split(/(?:\r\n|\r|\n)/g).forEach(addTextToOutputElement);
-         }
-
-         function setConnected() {
-         showAlert('connected');
-         }
-
-         function setDisconnected() {
-         console.log("disconnected");
-         }
-
-         setDisconnected();*/
     });
 }
 
