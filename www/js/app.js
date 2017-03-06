@@ -10,7 +10,6 @@ var angular = require("angular");
 var app = angular.module('starter', ['ionic']);
 app.config(['$stateProvider', '$urlRouterProvider', require('./config').router]);
 app.run(['$ionicPlatform', require('./config').run]);
-app.service('Chats', [require('./services/chat_service')]);
 app.service('MPDService', ['$ionicPopup','$rootScope', require('./services/mpd_service')]);
 app.controller('MainCtrl', ['$scope', '$ionicPlatform', 'MPDService', require('./controllers/main_ctrl')]);
 app.controller('SettingsCtrl', ['$scope', '$ionicPlatform', '$location', 'MPDService', require('./controllers/settings_ctrl')]);
