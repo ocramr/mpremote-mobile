@@ -4,14 +4,14 @@
       <div class="item item-input-inset">
         <label class="item item-input item-input-wrapper">
           <i class="icon ion-edit placeholder-icon"></i>
-          <input type="text" placeholder="Host" ng-disabled="player.isConnected" ng-model="player.host">
+          <input type="number" placeholder="Host" ng-disabled="player.isConnected" ng-model="player.host">
         </label>
       </div>
 
       <div class="item item-input-inset">
         <label class="item item-input item-input-wrapper">
           <i class="icon ion-edit placeholder-icon"></i>
-          <input type="text" placeholder="Port" ng-disabled="player.isConnected" ng-model="player.port">
+          <input type="number" placeholder="Port" ng-disabled="player.isConnected" ng-model="player.port">
         </label>
       </div>
       <div ng-if="player.isConnected">
