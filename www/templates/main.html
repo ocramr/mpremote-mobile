@@ -1,25 +1,36 @@
-<ion-view view-title="MPRemote">
-  <ion-content class="padding">
+<ion-view>
+  <ion-content>
+    <!--ng-if="player.isConnected"-->
+    <div class="list card">
+      <div class="item item-avatar">
+        <img src="images/avatar_default.png">
+        <h2>Pretty Hate Machine</h2>
+        <p>Nine Inch Nails</p>
+      </div>
 
-    <h1 class="text-center">{{ player.isConnected ? player.host : 'MPRemote' }}</h1>
-    <div ng-if="player.isConnected">
-      <button id="next" ng-click="next()">Next</button>
-      <button id="prev" ng-click="prev()">Previous</button>
-      <button id="pause" ng-click="pause()">Pause</button>
-      <button id="play" ng-click="play()">Play</button>
-      <button id="stop" ng-click="stop()">Stop</button>
-      <button id="clear" ng-click="clear()">Clear</button>
-      <div>
-        <span id="currentVol"></span><button id="volMinus" ng-click="volMinus()">Vol -</button><button  id="volPlus" ng-click="volPlus()">Vol+</button>
+      <div class="item item-image">
+        <img src="images/disc_default.png">
       </div>
-      <div class="padding list">
-        <div ng-repeat="song in player.playlist" class="item" ng-click="playAt($index)">
-          {{song.file}}</div>
+
+      <a class="item item-icon-left assertive" href="#">
+        <i class="icon ion-music-note"></i>
+        Start listening
+      </a>
+      <div class="button-bar">
+        <button  id="prev" ng-click="prev()" class="button icon fa fa-step-backward"></button>
+        <button  id="pause" ng-click="pause()" class="button icon fa fa-pause"></button>
+        <button  id="play" ng-click="play()" class="button icon fa fa-play"></button>
+        <button  id="stop" ng-click="stop()" class="button icon fa fa-stop"></button>
+        <button id="next" ng-click="next()" class="button icon fa fa-step-forward"></button>
       </div>
+        <div class="item item-text-wrap" >
+          <div class="loader progress-bar player-bar" ng-style="{width: progressPercent+'%'}">
+          </div>
+        </div>
     </div>
-    <div ng-if="!player.isConnected">
-      <p><strong>Le client n'est pas connecté</strong></p>
-    </div>
+    <!--<div ng-if="!player.isConnected">
+      <h4 class="text-center"><strong>Le client n'est pas connecté</strong></h4>
+    </div>-->
 
   </ion-content>
 </ion-view>

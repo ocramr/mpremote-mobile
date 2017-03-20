@@ -11,5 +11,5 @@ var app = angular.module('starter', ['ionic']);
 app.config(['$stateProvider', '$urlRouterProvider', require('./config').router]);
 app.run(['$ionicPlatform', require('./config').run]);
 app.service('MPDService', ['$ionicPopup','$rootScope', require('./services/mpd_service')]);
-app.controller('MainCtrl', ['$scope', '$ionicPlatform', 'MPDService', require('./controllers/main_ctrl')]);
+app.controller('MainCtrl', ['$scope', '$ionicPlatform', '$timeout', 'MPDService', require('./controllers/main_ctrl')]);
 app.controller('SettingsCtrl', ['$scope', '$ionicPlatform', '$location', 'MPDService', require('./controllers/settings_ctrl')]);
