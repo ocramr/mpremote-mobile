@@ -1,10 +1,9 @@
-var Song = function(info, mpd) {
-	this.mpd = mpd;
+var Song = function(info) {
 	for(var key in info) {
 		this[key] = info[key];
 	}
 };
-
+/*
 Song.prototype.flatCopy = function() {
 	var obj = {};
 	for(var key in this) {
@@ -13,11 +12,11 @@ Song.prototype.flatCopy = function() {
 		}
 	}
 	return obj;
-};
+};*/
 
-Song.prototype.add = function(callback) {
+/*Song.prototype.add = function(callback) {
 	this.mpd.add(this.file, callback);
-};
+};*/
 
 Song.createFromInfoArray = function(lines, mpd) {
 	var info = {};

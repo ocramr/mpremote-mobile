@@ -6,11 +6,7 @@ function settings_ctrl($scope, $ionicPlatform, $location, MPDService) {
 
     $ionicPlatform.ready(function() {
 
-        $scope.player = {};
-
-        $scope.$on('onConnect', function(event, data){
-            $scope.player = data.server;
-        });
+        $scope.player = MPDService.getPlayer();
 
         $scope.$on('onDisconnect', function(event, data){
             $scope.player = {};

@@ -80,6 +80,12 @@ function MPDJS() {
         }.bind(this));
     };
 
+    MPD.prototype.stop = function(callback) {
+        this._sendCommand("stop", function(r) {
+            this._answerCallbackError(r, callback);
+        }.bind(this));
+    };
+
     MPD.prototype.next = function(callback) {
         this._sendCommand("next", function(r) {
             this._answerCallbackError(r, callback);
@@ -116,6 +122,12 @@ function MPDJS() {
         }.bind(this));
     };
 
+    MPD.prototype.delete = function(position, callback) {
+        this._sendCommand("delete", position, function(r){
+            this._answerCallbackError(r, callback);
+        }.bind(this));
+    };
+
     MPD.prototype.volume = function(vol, callback) {
         this._sendCommand("setvol", vol, function(r) {
             this._answerCallbackError(r, callback);
@@ -132,6 +144,36 @@ function MPDJS() {
             this._answerCallbackError(r, callback);
         }.bind(this));
         this._sendCommand.apply(this, args);
+    };
+
+    MPD.prototype.random = function(state, callback) {
+        this._sendCommand("random "+state, function(r) {
+            this._answerCallbackError(r, callback);
+        }.bind(this));
+    };
+
+    MPD.prototype.repeat = function(state, callback) {
+        this._sendCommand("repeat "+state, function(r) {
+            this._answerCallbackError(r, callback);
+        }.bind(this));
+    };
+
+    MPD.prototype.seek = function(position, callback) {
+        this._sendCommand("seekcur "+position, function(r) {
+            this._answerCallbackError(r, callback);
+        }.bind(this));
+    };
+
+    MPD.prototype._answerCallbackError = function(r, cb) {
+        var err = this._checkReturn(r);
+        if(cb) {
+            cb(err);
+        }
+        else {
+            if(err) {
+                throw err;
+            }
+        }
     };
 
     /*
@@ -203,18 +245,6 @@ function MPDJS() {
                 }
             }
             //else console.log("Doesn't have return: " + this.buffer);
-        }
-    };
-
-    MPD.prototype._answerCallbackError = function(r, cb) {
-        var err = this._checkReturn(r);
-        if(cb) {
-            cb(err);
-        }
-        else {
-            if(err) {
-                throw err;
-            }
         }
     };
 
@@ -375,9 +405,101 @@ function MPDJS() {
         }.bind(this));
     };
 
-   /*
-    * Idle handling
-    */
+    /*
+     *	finding songs by tags
+     */
+    MPD.prototype.findRequest = function(search, callback){
+        this._sendCommand("find", 'any', search,  function(message) {
+            var songs = [];
+            var lines = message.split("\n");
+            var songLines = [];
+            for(var i = 0; i < lines.length - 1; i++) {
+                var line = lines[i];
+                if(i !== 0 && line.startsWith("file:")) {
+                    songs.push(Song.createFromInfoArray(songLines, this));
+                    songLines = [];
+                }
+                songLines.push(line);
+            }
+            if(songLines.length !== 0) {
+                songs.push(Song.createFromInfoArray(songLines, this));
+            }
+            var err = this._checkReturn(lines[lines.length - 1]);
+            if(err) { throw err; }
+            callback(songs);
+        }.bind(this));
+    };
+
+    /*
+     * handling playlists
+     */
+    MPD.prototype.listOfPlaylists = function(callback){
+        this._sendCommand("listplaylists", function(message){
+            var playlists = [];
+            var message = message.split("\n");
+            message.forEach(function(element) {
+                if(element.startsWith('playlist')){
+                    element = element.substr(10,element.length);
+                    playlists.push(element);
+                }
+            }, this);
+            callback(playlists);
+        }.bind(this));
+    };
+    MPD.prototype.playlistSongs = function(name, callback){
+        this._sendCommand("listplaylistinfo ", name, function(message){
+            var songs = [];
+            var lines = message.split("\n");
+            var songLines = [];
+            for(var i = 0; i < lines.length - 1; i++) {
+                var line = lines[i];
+                if(i !== 0 && line.startsWith("file:")) {
+                    songs.push(Song.createFromInfoArray(songLines, this));
+                    songLines = [];
+                }
+                songLines.push(line);
+            }
+            if(songLines.length !== 0) {
+                songs.push(Song.createFromInfoArray(songLines, this));
+            }
+            var err = this._checkReturn(lines[lines.length - 1]);
+            if(err) { throw err; }
+            callback(songs);
+        }.bind(this));
+    };
+    MPD.prototype.newPlaylist = function(name, callback){
+        this._sendCommand("save", name, function(message) {
+            this._sendCommand("playlistclear ", name, function(message){
+                console.log(message);
+            }.bind(this));
+            callback(message);
+        }.bind(this));
+    };
+    MPD.prototype.addToPlaylist = function(name, uri, callback){
+        this._sendCommand("playlistadd ", name, uri, function(message) {
+            console.log(message);
+            callback(message);
+        }.bind(this));
+    };
+    MPD.prototype.deleteFromPlaylist = function(name, pos, callback){
+        this._sendCommand("playlistdelete",name, pos, function(message) {
+            callback(message);
+        }.bind(this));
+    };
+    MPD.prototype.removePlayList = function(name, callback){
+        this._sendCommand("rm", name, function(message) {
+            callback(message);
+        }.bind(this));
+    };
+    MPD.prototype.loadPlaylist = function(name, callback){
+        this._sendCommand("load",name, function(message) {
+            callback(message);
+        }.bind(this));
+    };
+
+    /*
+     * Idle handling
+     */
     MPD.prototype._onMessage = function(message) {
         var match;
         if(!(match = message.match(/changed:\s*(.*?)\s+OK/))) {

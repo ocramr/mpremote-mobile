@@ -13,9 +13,12 @@ module.exports = function($ionicPopup, $rootScope) {
 
     var MPDJS = require('../../mpd/MPDJS.js');
     var MPD = MPDJS();
-    var mpd={};
+    var mpd;
     var volume_interval = 10;
     return{
+        getPlayer:  function () {
+            return mpd;
+        },
         connect : function (host, port, sucessCallback) {
             mpd = new MPD({host: host, port : port});
             mpd.on('ready', function () {
