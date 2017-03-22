@@ -1,0 +1,14 @@
+*si on change du code js:
+
+browserify www/js/app.js -o www/js/bundle.js --debug
+
+*pour tester styles, etc sur  le browser (et recharges le changements automatiquement)
+
+ionic serve --livereload
+
+
+*pour démarrer l'app (android device) (tester des fonctionnalités seulement avec un device à cause du plugin):
+
+ioni run android --device
+
+
