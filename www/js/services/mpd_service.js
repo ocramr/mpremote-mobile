@@ -22,33 +22,29 @@ module.exports = function($ionicPopup, $rootScope) {
         connect : function (host, port, sucessCallback) {
             mpd = new MPD({host: host, port : port});
             mpd.on('ready', function () {
-                console.log('ready');
-                console.log(mpd);
-                $rootScope.$broadcast('onConnect', {server:
-                    {host: mpd.host, port: mpd.port, isConnected: true, playlist: mpd.playlist}});
+                sucessCallback();
+               /* $rootScope.$broadcast('onConnect', {server:
+                    {host: mpd.host, port: mpd.port, isConnected: true, playlist: mpd.playlist}});*/
             });
             mpd.on('update', function (updated) {
-                console.log("updated");
                 console.log(updated);
-                $rootScope.$broadcast('onUpdate', {server:
-                    {host: mpd.host, port: mpd.port, isConnected: true, playlist: mpd.playlist}});
+                $rootScope.$broadcast('onUpdate', {mpd: mpd, event: updated});
             });
 
             mpd.connect(function (message) {
-                showAlert(message);
+                //showAlert(message);
                 sucessCallback();
             }, function (message) {
-                mpd = {};
-                showAlert(message);
+                mpd = undefined;
+                //showAlert(message);
             });
 
         },
-        disconnect: function () {
-            console.log("disconnected");
-            $rootScope.$broadcast('onDisconnect', {});
+        disconnect: function (callback) {
             mpd.disconnect();
-        }
-        ,
+            mpd = null;
+            callback();
+        },
 
         addSongs : function () {
             mpd.updateSongs(function (songs) {
@@ -97,16 +93,84 @@ module.exports = function($ionicPopup, $rootScope) {
             });
         },
         volPlus: function () {
-            mpd.volume(parseInt(mpd.status.volume) + volume_interval);
-            mpd.updateStatus(function () {
-                console.log("volPlus");
-            });
+            var newVolume = parseInt(mpd.status.volume) + volume_interval;
+            if(newVolume <= 100) {
+                mpd.volume(newVolume);
+                mpd.updateStatus();
+            }
         },
         volMinus: function () {
-            mpd.volume(parseInt(mpd.status.volume) - volume_interval);
-            mpd.updateStatus(function () {
-                console.log("volMinus");
+            var newVolume = parseInt(mpd.status.volume) - volume_interval;
+            if (newVolume >= 0) {
+                mpd.volume(newVolume);
+                mpd.updateStatus();
+            }
+        },
+        getAllSongs : function() {
+            mpd.getSongs(function(data){
+                $rootScope.$broadcast('onSongsReceived',data);
             });
+        },
+        getAlbums : function() {
+            mpd.getList('album', function(data){
+                $rootScope.$broadcast('onAlbumsReceived', data);
+            });
+        },
+        getArtists : function() {
+            mpd.getList('artist', function(data){
+                $rootScope.$broadcast('onArtistsReceived', data);
+            });
+        },
+        getGenres : function() {
+            mpd.getList('genre', function(data){
+                $rootScope.$broadcast('onGenresReceived', data);
+            });
+        },
+        refrechSongs : function(search) {
+            mpd.findRequest(search, function(data){
+                $rootScope.$broadcast('onResonseFindRequest', data);
+            });
+        },
+        getPlaylists : function() {
+            mpd.listOfPlaylists(function(data){
+                $rootScope.$broadcast('onPlaylistsReceived', data);
+            });
+        },
+        getPlaylistsSongs : function(name) {
+            mpd.playlistSongs(name, function(data){
+                $rootScope.$broadcast('onPlaylistSongsReceived', data);
+            })
+        },
+        addPlaylist : function(name) {
+            mpd.newPlaylist(name, function(response){
+                return response;
+            });
+        },
+        removePlaylist : function(name) {
+            mpd.removePlayList(name, function(response){
+                return response;
+            })
+        },
+        addSongToPlaylist : function(name, song) {
+            mpd.addToPlaylist(name, song, function(response){
+                return response;
+            });
+        },
+        deleteSongFromPlaylist : function(name, song) {
+            mpd.deleteFromPlaylist(name, song, function(response){
+                return response;
+            });
+        },
+        loadPlaylist : function(name) {
+            mpd.loadPlaylist(name ,function(response){
+                return response;
+            });
+        },
+        status : function (callback) {
+            mpd.updateStatus(callback);
+        },
+        seek: function (position, callback) {
+            mpd.seek(position,callback);
         }
     }
 };

@@ -227,7 +227,6 @@ function MPDJS() {
             dataString = "";
         }
         dataString = dataString.trim();
-        console.log("RECV: " + dataString);
         if (this.idling || this.commanding) {
             this.buffer += dataString;
             var index;

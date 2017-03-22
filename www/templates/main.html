@@ -1,11 +1,10 @@
 <ion-view>
   <ion-content>
-    <!--ng-if="player.isConnected"-->
-    <div class="list card">
-      <div class="item item-avatar">
-        <img src="images/avatar_default.png">
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
+    <div class="list card" ng-if="player">
+      <div ng-if="player && player.currentSong" class="item item-avatar">
+        <!--<img src="images/avatar_default.png">-->
+        <h2>{{player.currentSong.name}}</h2>
+        <p>{{player.currentSong.name}}</p>
       </div>
 
       <div class="item item-image">
@@ -18,8 +17,8 @@
       </a>
       <div class="button-bar">
         <button  id="prev" ng-click="prev()" class="button icon fa fa-step-backward"></button>
-        <button  id="pause" ng-click="pause()" class="button icon fa fa-pause"></button>
-        <button  id="play" ng-click="play()" class="button icon fa fa-play"></button>
+        <button  ng-if="$parent.player.status.state == 'play'"  id="pause" ng-click="pause()" class="button icon fa fa-pause"></button>
+        <button  ng-if="$parent.player.status.state != 'play'" id="play" ng-click="play()" class="button icon fa fa-play"></button>
         <button  id="stop" ng-click="stop()" class="button icon fa fa-stop"></button>
         <button id="next" ng-click="next()" class="button icon fa fa-step-forward"></button>
       </div>
@@ -28,9 +27,9 @@
           </div>
         </div>
     </div>
-    <!--<div ng-if="!player.isConnected">
+    <div ng-if="!player">
       <h4 class="text-center"><strong>Le client n'est pas connecté</strong></h4>
-    </div>-->
+    </div>
 
   </ion-content>
 </ion-view>
