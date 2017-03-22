@@ -5,19 +5,22 @@
       <button class="btn btn-default" on-tap="disconnect()">Se déconnecter</button>
     </div>
     <div ng-if="!player" class="list list-inset">
-        <label class="item item-input">
-          <i class="icon ion-edit placeholder-icon"></i>
-          <input type="text" placeholder="Host" ng-model="player.host">
-        </label>
+        <h3>Saisir les données du serveur</h3>
+        <form>
+            <label class="item item-input">
+                <i class="icon ion-edit placeholder-icon"></i>
+                <input type="number" placeholder="Host" ng-model="player.host">
+            </label>
 
-        <label class="item item-input">
-          <i class="icon ion-edit placeholder-icon"></i>
-          <input type="text" placeholder="Port" ng-model="player.port">
-        </label>
-      <div>
-        <button class="button button-block" on-tap="connect(player)">Se connecter</button>
-        <button class="button button-block" on-tap="connect()">Connection par défaut</button>
-      </div>
+            <label class="item item-input">
+                <i class="icon ion-edit placeholder-icon"></i>
+                <input type="number" placeholder="Port" ng-model="player.port">
+            </label>
+            <div>
+                <button class="button button-block" ng-click="connect(player)">Se connecter</button>
+                <button class="button button-block" ng-click="connect()">Connection par défaut</button>
+            </div>
+        </form>
     </div>
   </ion-content>
 </ion-view>
