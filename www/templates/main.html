@@ -1,32 +1,36 @@
 <ion-view>
-  <ion-content>
-    <div class="list card" ng-if="player">
-      <div ng-if="player && player.currentSong" class="item item-avatar">
-        <!--<img src="images/avatar_default.png">-->
-        <h2>{{player.currentSong.name}}</h2>
-        <p>{{player.currentSong.name}}</p>
-      </div>
-
-      <div class="item item-image">
-        <img src="images/disc_default.png">
-      </div>
-
-      <a class="item item-icon-left assertive" href="#">
-        <i class="icon ion-music-note"></i>
-        Start listening
-      </a>
-      <div class="button-bar">
-        <button  id="prev" ng-click="prev()" class="button icon fa fa-step-backward"></button>
-        <button  ng-if="$parent.player.status.state == 'play'"  id="pause" ng-click="pause()" class="button icon fa fa-pause"></button>
-        <button  ng-if="$parent.player.status.state != 'play'" id="play" ng-click="play()" class="button icon fa fa-play"></button>
-        <button  id="stop" ng-click="stop()" class="button icon fa fa-stop"></button>
-        <button id="next" ng-click="next()" class="button icon fa fa-step-forward"></button>
-      </div>
-        <div class="item item-text-wrap" >
-          <div class="loader progress-bar player-bar" ng-style="{width: progressPercent+'%'}">
+  <ion-content class="has-header" scroll="false">
+    <ion-slides ng-if="player" options="options" slider="data.slider">
+      <ion-slide-page>
+        <div class="card has-footer" >
+          <div ng-if="player && player.currentSong" class="item item-avatar">
+            <!--<img src="images/avatar_default.png">-->
+            <h2>{{player.currentSong.name}}</h2>
+            <p>{{player.currentSong.name}}</p>
           </div>
+
+          <div class="item item-image">
+            <img src="images/disc_default.png">
+          </div>
+          <div class="item item-text-wrap" >
+            <div class="loader progress-bar player-bar" ng-style="{width: divide+'%'}">
+            </div>
+          </div>
+          <ion-footer-bar align-title="center" class="bar-light">
+            <div class="button-bar">
+              <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>
+              <button id="pause" on-tap="playOrPause()" class="button icon fa fa-pause" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
+              <button  id="stop" on-tap="stop()" class="button icon fa fa-stop"></button>
+              <button id="next" on-tap="next()" class="button icon fa fa-step-forward"></button>
+            </div>
+          </ion-footer-bar>
         </div>
-    </div>
+      </ion-slide-page>
+      <ion-slide-page>
+        <div class="box yellow"><h1>YELLOW</h1></div>
+      </ion-slide-page>
+    </ion-slides>
+
     <div ng-if="!player">
       <h4 class="text-center"><strong>Le client n'est pas connecté</strong></h4>
     </div>

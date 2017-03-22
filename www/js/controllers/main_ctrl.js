@@ -7,12 +7,34 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
     $ionicPlatform.ready(function() {
 
+        $scope.options = {
+            loop: false,
+            effect: 'fade',
+            speed: 500,
+            direction: 'vertical'
+        }
+
+        $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
+            // data.slider is the instance of Swiper
+            $scope.slider = data.slider;
+        });
+
+        $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
+            console.log('Slide change is beginning');
+        });
+
+        $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
+            // note: the indexes are 0-based
+            $scope.activeIndex = data.slider.activeIndex;
+            $scope.previousIndex = data.slider.previousIndex;
+        });
+
         $scope.$on('$ionicView.loaded', function(){
             // Anything you can think of
             console.log('main controlelr loaded');
         });
 
-        $scope.$on('$ionicView.afterEnter', function(){
+        $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
             $scope.player = MPDService.getPlayer();
             if($scope.player) {
@@ -24,7 +46,7 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
         //ici on va stocker la dernier musique jouée et la dernier action fait, pour pouvoir controller le pause, stop, et surtout le "next"
         //pour savoir quand redémarrer le timer
         var actualStatus = {actualSongId : -1};
-        $scope.progressPercent = 50;
+        //$scope.progressPercent = 0;
         /**
          * Fonction qui s'éxecute quand le controller charge (après le chargement du DOM, voir $timeout)
          */
@@ -71,7 +93,7 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
                 actualStatus.state = playerStatus.state;
                 actualStatus.actualSongId = playerStatus.song;
                 $scope.counter = 0;
-                //stopCounter();
+                stopCounter();
             }else{
                 //Si lorsqu'on se connecte, le player est en "play" ou "pause" on mettre à jour le titre de la musique dans la vue
                 // et on maj le temps qui avait passé
@@ -90,17 +112,17 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
                     //si actualSongId == -1 -> C'est nous qui commençons a jouer, alors on "commence"
                     //du counter qu'on avaut, 0 si actualSongId == -1, le temps joué si on avait fait "pause"
                     if(actualStatus.state == 'pause'){
-                        //onTimeout();
+                        onTimeout();
                     }else{
                         //Si actualSongId != -1, qqn avait sélectionné "next", il faut rédemarrer le timer");
-                       // restart();
+                        restart();
                     }
                     actualStatus.state = playerStatus.state;
                     actualStatus.actualSongId = playerStatus.song;
                 }else if (playerStatus.state == 'pause') {
                     actualStatus.state = playerStatus.state;
                     actualStatus.actualSongId = playerStatus.song;
-                    //stopCounter(true);
+                    stopCounter(true);
                 }
             }
         };
@@ -133,12 +155,13 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
             MPDService.addSongs();
         };
 
-        $scope.play = function () {
-            MPDService.play();
-        };
+        $scope.playOrPause = function () {
+            if($scope.player.status.state == 'play'){
+                MPDService.pause();
+            }else{
+                MPDService.play();
+            }
 
-        $scope.pause= function () {
-            MPDService.pause();
         };
 
         $scope.next = function () {

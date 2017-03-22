@@ -2,7 +2,7 @@
   <ion-content class="padding has-header">
     <div ng-if="player" class="col-md-6 col-md-offset-3" >
       <p>Vous &ecaron;tes connect&eacute; &agrave; {{player.host}}:{{player.port}}</p>
-      <button class="btn btn-default" ng-click="disconnect()">Se déconnecter</button>
+      <button class="btn btn-default" on-tap="disconnect()">Se déconnecter</button>
     </div>
     <div ng-if="!player" class="list list-inset">
         <label class="item item-input">
@@ -15,8 +15,8 @@
           <input type="text" placeholder="Port" ng-model="player.port">
         </label>
       <div>
-        <button class="button button-block" ng-click="connect(player)">Se connecter</button>
-        <button class="button button-block" ng-click="connect()">Connection par défaut</button>
+        <button class="button button-block" on-tap="connect(player)">Se connecter</button>
+        <button class="button button-block" on-tap="connect()">Connection par défaut</button>
       </div>
     </div>
   </ion-content>
