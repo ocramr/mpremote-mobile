@@ -19,6 +19,7 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
     <link href="css/css/theme.css" rel="stylesheet">
+    <link href="css/css/slidingTabs.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -34,15 +35,21 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="js/directives/slidingTabsDirective.js"></script>
     <script src="js/bundle.js"></script>
+
   </head>
   <body ng-app="starter">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
     <div class="bar bar-header bar-dark">
-      <img src="images/logo.png" class="title">
-      <a class="button icon ion-android-settings" ui-sref="settings"></a>
+      <img src="images/logo.png" class="title"/>
+      <div class="buttons">
+        <a class="button button-icon ion-music-note" ui-sref="library"></a>
+        <a class="button button-icon ion-android-settings" ui-sref="settings"></a>
+      </div>
+
     </div>
     <ion-nav-view></ion-nav-view>
   </body>

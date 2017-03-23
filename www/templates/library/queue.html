@@ -1,0 +1,9 @@
+<ion-view>
+    <ion-content>
+        <div class="list card">
+            <div ng-repeat="song in songList" ng-click="playAt($index)" class="item">
+                {{song.title}}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

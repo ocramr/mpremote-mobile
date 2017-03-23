@@ -1,8 +1,6 @@
 <ion-view>
   <ion-content class="has-header" scroll="false">
-    <ion-slides ng-if="player" options="options" slider="data.slider">
-      <ion-slide-page>
-        <div class="card has-footer" >
+        <div ng-if="player" class="card has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">
             <!--<img src="images/avatar_default.png">-->
             <h2>{{player.currentSong.name}}</h2>
@@ -16,20 +14,16 @@
             <div class="loader progress-bar player-bar" ng-style="{width: divide+'%'}">
             </div>
           </div>
-          <ion-footer-bar align-title="center" class="bar-light">
+          <!--<ion-footer-bar align-title="center" class="bar-light">-->
             <div class="button-bar">
               <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>
               <button id="pause" on-tap="playOrPause()" class="button icon fa fa-pause" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
               <button  id="stop" on-tap="stop()" class="button icon fa fa-stop"></button>
               <button id="next" on-tap="next()" class="button icon fa fa-step-forward"></button>
             </div>
-          </ion-footer-bar>
+          <!--</ion-footer-bar>-->
         </div>
-      </ion-slide-page>
-      <ion-slide-page>
-        <div class="box yellow"><h1>YELLOW</h1></div>
-      </ion-slide-page>
-    </ion-slides>
+
 
     <div ng-if="!player">
       <h4 class="text-center"><strong>Le client n'est pas connecté</strong></h4>

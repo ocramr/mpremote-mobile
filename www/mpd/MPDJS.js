@@ -247,6 +247,59 @@ function MPDJS() {
         }
     };
 
+    MPD.prototype.getList = function(type, callback){
+        this._sendCommand("list", type, function(message){
+            var albums = [];
+            var lines = message.split("\n");
+            switch (type) {
+                case 'album':
+                    lines.forEach(function(element) {
+                        element = element.substr(7,element.length);
+                        albums.push(element);
+                    }, this);
+                    break;
+                case 'artist':
+                    lines.forEach(function(element) {
+                        element = element.substr(8,element.length);
+                        albums.push(element);
+                    }, this);
+                    break;
+                case 'genre':
+                    lines.forEach(function(element) {
+                        element = element.substr(7,element.length);
+                        albums.push(element);
+                    }, this);
+                    break;
+            }
+            albums.pop();
+            callback(albums);
+        }.bind(this));
+    };
+
+    MPD.prototype.getSongs = function(callback) {
+
+        this._sendCommand("listallinfo", function(message) {
+            var songs = [];
+            var lines = message.split("\n");
+            var songLines = [];
+            for(var i = 0; i < lines.length - 1; i++) {
+                var line = lines[i];
+                if(i !== 0 && line.startsWith("file:")) {
+                    songs.push(Song.createFromInfoArray(songLines, this));
+                    songLines = [];
+                }
+                songLines.push(line);
+            }
+            if(songLines.length !== 0) {
+                songs.push(Song.createFromInfoArray(songLines, this));
+            }
+            var err = this._checkReturn(lines[lines.length - 1]);
+            if(err) { throw err; }
+            callback(songs);
+
+        }.bind(this));
+    };
+
     var createFromInfoArray = function(lines, mpd) {
         var info = {};
         for(var i = 0; i < lines.length; i++) {

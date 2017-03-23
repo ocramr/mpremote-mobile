@@ -53,9 +53,7 @@ module.exports = function($ionicPopup, $rootScope) {
         },
         play : function () {
             console.log("play");
-            mpd.play(function () {
-                console.log("playing");
-            })
+            mpd.play();
         },
         pause : function () {
             mpd.pause(function () {
@@ -82,10 +80,8 @@ module.exports = function($ionicPopup, $rootScope) {
                 console.log("clear");
             });
         },
-        playAt: function (pos) {
-            mpd.playAt(pos, function () {
-                console.log("playing at");
-            });
+        playAt: function (pos, callback) {
+            mpd.playAt(pos, callback);
         },
         add: function (element) {
             mpd.add(element, function () {

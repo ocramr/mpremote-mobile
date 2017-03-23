@@ -26,7 +26,7 @@ function settings_ctrl($scope, $ionicPlatform, $location, MPDService) {
             var port = (connectionParams && connectionParams.port) ? connectionParams.port : defaultPort;
             MPDService.connect(ip, port, function () {
                 $scope.$apply(function () {
-                    $location.path('/');
+                    $location.path('/main');
                 })
             });
         };
