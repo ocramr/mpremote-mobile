@@ -3,31 +3,10 @@
  */
 function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
-
-
+    $scope.divide = 0;
     $ionicPlatform.ready(function() {
 
-        $scope.options = {
-            loop: false,
-            effect: 'fade',
-            speed: 500,
-            direction: 'vertical'
-        }
 
-        $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
-            // data.slider is the instance of Swiper
-            $scope.slider = data.slider;
-        });
-
-        $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
-            console.log('Slide change is beginning');
-        });
-
-        $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
-            // note: the indexes are 0-based
-            $scope.activeIndex = data.slider.activeIndex;
-            $scope.previousIndex = data.slider.previousIndex;
-        });
 
         $scope.$on('$ionicView.loaded', function(){
             // Anything you can think of
@@ -43,6 +22,13 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
                 });
             }
         });
+
+        $scope.seek = function (event) {
+            var fullProgressBarWidth = $(e.currentTarget).width();
+            var requestedPosition = e.offsetX / fullProgressBarWidth;
+            var seekTime = Math.ceil($scope.time*requestedPosition);
+            MPDService.seek(seekTime);
+        };
         //ici on va stocker la dernier musique jouée et la dernier action fait, pour pouvoir controller le pause, stop, et surtout le "next"
         //pour savoir quand redémarrer le timer
         var actualStatus = {actualSongId : -1};
@@ -53,7 +39,9 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
         const stopCounter = function(){
             //divide = pourcentage par rapport à la durée de la musique, pour le width du progress-bar
-            $scope.divide = $scope.counter*100/$scope.time;
+            $scope.$apply(function () {
+                $scope.divide = $scope.counter*100/$scope.time;
+            });
             $timeout.cancel(mytimeout);
         };
 
@@ -74,12 +62,12 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
         var mytimeout = $timeout(onTimeout,1000);
 
-        $scope.seek = function (e) {
+        /*$scope.seek = function (e) {
             var fullProgressBarWidth = $(e.currentTarget).width();
             var requestedPosition = e.offsetX / fullProgressBarWidth;
             var seekTime = Math.ceil($scope.time*requestedPosition);
             MPDService.seek(seekTime);
-        };
+        };*/
 
         /**
          * Fonction qui écoute les évenements du player (play,stop,pause) Pour mettre à jour la vue

@@ -1,6 +1,6 @@
 <ion-view>
   <ion-content class="has-header" scroll="false">
-        <div ng-if="player" class="card has-footer" >
+        <div ng-if="player" class="has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">
             <!--<img src="images/avatar_default.png">-->
             <h2>{{player.currentSong.name}}</h2>
@@ -10,18 +10,18 @@
           <div class="item item-image">
             <img src="images/disc_default.png">
           </div>
-          <div class="item item-text-wrap" >
-            <div class="loader progress-bar player-bar" ng-style="{width: divide+'%'}">
+
+          <ion-footer-bar align-title="center" class="bar-light">
+            <div class="item range range-positive">
+              <input type="range" name="volume" min="0" max="100" ng-model="divide">
             </div>
-          </div>
-          <!--<ion-footer-bar align-title="center" class="bar-light">-->
             <div class="button-bar">
               <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>
               <button id="pause" on-tap="playOrPause()" class="button icon fa fa-pause" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
               <button  id="stop" on-tap="stop()" class="button icon fa fa-stop"></button>
               <button id="next" on-tap="next()" class="button icon fa fa-step-forward"></button>
             </div>
-          <!--</ion-footer-bar>-->
+          </ion-footer-bar>
         </div>
 
 
