@@ -60,6 +60,14 @@ function tabs_ctrl($scope, $ionicPlatform, $location, MPDService) {
             });
         });
 
+        $scope.playAt = function (pos) {
+            MPDService.playAt(pos, function () {
+                $scope.$apply(function () {
+                    $location.path('/main');
+                })
+            });
+        };
+
         $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
             $scope.player = MPDService.getPlayer();

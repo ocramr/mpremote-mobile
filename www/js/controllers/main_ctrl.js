@@ -168,9 +168,7 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
             });
 
         };
-        $scope.playAt = function (pos) {
-            MPDService.playAt(pos);
-        };
+
         $scope.add = function (name) {
             MPDService.add(name);
             MPDService._updatePlaylist(function () {
