@@ -11,6 +11,10 @@ module.exports = function($ionicPopup, $rootScope) {
         });
     };
 
+    const filterEmpty = function (e) {
+        return e && e!='';
+    };
+
     var MPDJS = require('../../mpd/MPDJS.js');
     var MPD = MPDJS();
     var mpd;
@@ -102,34 +106,26 @@ module.exports = function($ionicPopup, $rootScope) {
                 mpd.updateStatus();
             }
         },
-        getAllSongs : function() {
-            mpd.getSongs(function(data){
-                $rootScope.$broadcast('onSongsReceived',data);
-            });
+        searchMusicByType: function (type) {
+            if(type =='allSongs'){
+                mpd.getSongs(function (data) {
+                    $rootScope.$broadcast('onDataReceived', {type: type, items: data});
+                });
+            }else if(type =='playlist'){
+                mpd.listOfPlaylists(function (data) {
+                    data = data.filter(filterEmpty);
+                    $rootScope.$broadcast('onDataReceived', {type: type, items: data});
+                });
+            }else{
+                mpd.getList(type, function (data) {
+                    data = data.filter(filterEmpty);
+                    $rootScope.$broadcast('onDataReceived', {type: type, items: data});
+                });
+            }
         },
-        getAlbums : function() {
-            mpd.getList('album', function(data){
-                $rootScope.$broadcast('onAlbumsReceived', data);
-            });
-        },
-        getArtists : function() {
-            mpd.getList('artist', function(data){
-                $rootScope.$broadcast('onArtistsReceived', data);
-            });
-        },
-        getGenres : function() {
-            mpd.getList('genre', function(data){
-                $rootScope.$broadcast('onGenresReceived', data);
-            });
-        },
-        refrechSongs : function(search) {
-            mpd.findRequest(search, function(data){
-                $rootScope.$broadcast('onResonseFindRequest', data);
-            });
-        },
-        getPlaylists : function() {
-            mpd.listOfPlaylists(function(data){
-                $rootScope.$broadcast('onPlaylistsReceived', data);
+        searchSongs : function(type, search) {
+            mpd.findRequest(type, search, function(data){
+                $rootScope.$broadcast('onResponseFindRequest', data);
             });
         },
         getPlaylistsSongs : function(name) {

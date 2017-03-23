@@ -249,30 +249,30 @@ function MPDJS() {
 
     MPD.prototype.getList = function(type, callback){
         this._sendCommand("list", type, function(message){
-            var albums = [];
+            var songs = [];
             var lines = message.split("\n");
             switch (type) {
                 case 'album':
                     lines.forEach(function(element) {
                         element = element.substr(7,element.length);
-                        albums.push(element);
+                        songs.push(element);
                     }, this);
                     break;
                 case 'artist':
                     lines.forEach(function(element) {
                         element = element.substr(8,element.length);
-                        albums.push(element);
+                        songs.push(element);
                     }, this);
                     break;
                 case 'genre':
                     lines.forEach(function(element) {
                         element = element.substr(7,element.length);
-                        albums.push(element);
+                        songs.push(element);
                     }, this);
                     break;
             }
-            albums.pop();
-            callback(albums);
+            songs.pop();
+            callback(songs);
         }.bind(this));
     };
 
@@ -460,8 +460,9 @@ function MPDJS() {
     /*
      *	finding songs by tags
      */
-    MPD.prototype.findRequest = function(search, callback){
-        this._sendCommand("find", 'any', search,  function(message) {
+    MPD.prototype.findRequest = function(type, query, callback){
+        if(!type || type =='')  type = 'any';
+        this._sendCommand("search", type, query,  function(message) {
             var songs = [];
             var lines = message.split("\n");
             var songLines = [];

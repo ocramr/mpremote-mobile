@@ -1,62 +1,94 @@
 /**
  * Created by marco on 2/03/17.
  */
-function tabs_ctrl($scope, $ionicPlatform, $location, MPDService) {
+function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, MPDService) {
 
-    const filterEmptyItem = function (e) {
-        return e && e != '';
+    // .fromTemplate() method
+    var template =  '<ion-popover-view>' +
+                            '<ion-header-bar>' +
+                                '<h1 class = "title">Options</h1>' +
+                            '</ion-header-bar>'+
+                            '<ion-content>' +
+                                '<button>Add to queue</button>' +
+                            '</ion-content>' +
+                    '</ion-popover-view>';
+
+    const filterEmpty = function (e) {
+        return e && e!='';
     };
+    const categories = ['playlist','artist','genre','album'];
 
     $ionicPlatform.ready(function() {
 
-        $scope.$on("$ionicSlides.sliderInitialized", function(event, data){
-            // data.slider is the instance of Swiper
-            $scope.slider = data.slider;
-            console.log($scope.slider);
-        })
-
-        $scope.$on("$ionicSlides.slideChangeStart", function(event, data){
-            console.log('Slide change is beginning');
+        /*$ionicModal.fromTemplateUrl('my-modal.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });*/
+        /*$scope.openModal = function() {
+            $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+        // Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });*/
+        $scope.popover = $ionicPopover.fromTemplate(template, {
+            scope: $scope
         });
 
-        $scope.$on("$ionicSlides.slideChangeEnd", function(event, data){
-            // note: the indexes are 0-based
-            $scope.activeIndex = data.slider.activeIndex;
-            $scope.previousIndex = data.slider.previousIndex;
-            console.log('previusIndex :'+$scope.activeIndex+' previous was : '+$scope.previousIndex);
+        $scope.openPopover = function($event) {
+            $scope.popover.show($event);
+        };
+
+        $scope.closePopover = function() {
+            $scope.popover.hide();
+        };
+
+        //Cleanup the popover when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.popover.remove();
         });
 
         //Listen for events
-        $scope.$on('onSongsReceived', function(event, data){
+        $scope.$on('onDataReceived', function (event, data) {
+            console.log(data);
+            var updateList;
+            switch(data.type){
+                case 'artist': updateList = function () {
+                    $scope.artists = data.items;
+                };break;
+                case 'album': updateList= function () {
+                    $scope.albums = data.items;
+                };break;
+                case 'genre': updateList = function () {
+                    $scope.genres = data.items;
+                };break;
+                case 'playlist': updateList = function () {
+                    $scope.playlists = data.items;
+                };break;
+                default: updateList = function () {
+                    $scope.songs = data.items;
+                }
+            }
+            $scope.$apply(updateList);
+        });
+
+        $scope.$on('onResponseFindRequest', function(event, data){
             $scope.$apply(function(){
                 $scope.songs = data;
-                $scope.isPlaylist = false;
-            });
-        });
-        $scope.$on('onAlbumsReceived', function(event, data){
-            $scope.$apply(function(){
-                $scope.albums = data.filter(filterEmptyItem);
-            });
-        });
-        $scope.$on('onArtistsReceived', function(event, data){
-            $scope.$apply(function(){
-                $scope.artists = data.filter(filterEmptyItem);
-            });
-        });
-        $scope.$on('onGenresReceived', function(event, data){
-            $scope.$apply(function(){
-                $scope.genres = data.filter(filterEmptyItem);
-            });
-        });
-        $scope.$on('onResonseFindRequest', function(event, data){
-            $scope.$apply(function(){
-                $scope.songs = data.filter(filterEmptyItem);
-                $scope.isPlaylist = false;
-            });
-        });
-        $scope.$on('onPlaylistsReceived', function(event, data){
-            $scope.$apply(function(){
-                $scope.playlists = data.filter(filterEmptyItem);
+                //$scope.isPlaylist = false;
             });
         });
 
@@ -68,15 +100,18 @@ function tabs_ctrl($scope, $ionicPlatform, $location, MPDService) {
             });
         };
 
+        $scope.search = function (type, criteria) {
+          MPDService.searchSongs(type, criteria);
+        };
+
         $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
             $scope.player = MPDService.getPlayer();
+            console.log($scope.player);
             $scope.songList = $scope.player.playlist;
-            //MPDService.getAllSongs();
-            MPDService.getAlbums();
-            MPDService.getArtists();
-            MPDService.getGenres();
-            MPDService.getPlaylists();
+            categories.forEach(function (e) {
+                MPDService.searchMusicByType(e);
+            });
         });
     });
 }
