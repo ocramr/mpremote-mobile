@@ -31,7 +31,7 @@ ion-slide:nth-child(2n) {
 }
 
 .slidingTabs ul {
-    background-color: #387ef5;
+    background-color: $colorSecondary1;
     height: 48px;
 }
 
@@ -44,7 +44,7 @@ ion-slide:nth-child(2n) {
     padding: 0 12px 20px 12px;
     font-size: 11px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
+    color: $colorBackground1;
     -webkit-transition: color .25s ease-in-out;
     transition: color .25s ease-in-out;
     position: relative;
@@ -58,7 +58,7 @@ ion-slide:nth-child(2n) {
 .slidingTabs ul li .ink {
     display: block;
     position: absolute;
-    background: rgba(56, 147, 245, 0.8);
+    // background: rgba(56, 147, 245, 0.8);
     border-radius: 100%;
     transform: scale(0);
 }
@@ -88,4 +88,8 @@ ion-slide:nth-child(2n) {
         opacity: 0;
         transform: scale(2.5);
     }
+}
+
+.bar-positive{
+    background: $colorSecondary1 !important;
 }
