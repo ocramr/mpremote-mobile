@@ -130,7 +130,7 @@ ion-slide:nth-child(2n) {
   min-width: 100%; }
 
 .slidingTabs ul {
-  background-color: #99003a;
+  background-color: #008e90;
   height: 48px; }
 
 .slidingTabs ul li {
@@ -179,6 +179,6 @@ ion-slide:nth-child(2n) {
     opacity: 0;
     transform: scale(2.5); } }
 .bar-positive {
-  background: #99003a !important; }
+  background: #008e90 !important; }
 
 /*# sourceMappingURL=theme.css.map */
