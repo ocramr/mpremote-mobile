@@ -13,4 +13,4 @@ app.run(['$ionicPlatform', require('./config').run]);
 app.service('MPDService', ['$ionicPopup','$rootScope', require('./services/mpd_service')]);
 app.controller('MainCtrl', ['$scope', '$ionicPlatform', '$timeout', 'MPDService', require('./controllers/main_ctrl')]);
 app.controller('SettingsCtrl', ['$scope', '$ionicPlatform', '$location', 'MPDService', require('./controllers/settings_ctrl')]);
-app.controller('TabsCtrl', ['$scope', '$ionicPlatform', '$location', '$ionicPopover', '$ionicModal','MPDService', require('./controllers/tabs_ctrl')]);
+app.controller('TabsCtrl', ['$scope', '$ionicPlatform', '$location', '$ionicPopover', '$ionicModal','$ionicListDelegate','MPDService', require('./controllers/tabs_ctrl')]);

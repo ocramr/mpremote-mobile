@@ -1,9 +1,23 @@
-<ion-view>
-    <ion-content>
-        <div class="list card">
-            <div ng-repeat="song in songList" ng-click="playAt($index)" class="item">
-                {{song.title}}
-            </div>
-        </div>
-    </ion-content>
-</ion-view>
+<ion-list
+        show-delete="false"
+        show-reorder="false"
+        can-swipe="false">
+    <ion-item ng-repeat="item in songList"
+              class="item-thumbnail-left" ng-click="playAt($index)">
+
+        <img src="images/disc_default.png">
+        <h2>{{item.artist}}</h2>
+        <p>{{item.title}}</p>
+        <ion-option-button class="button-positive"
+                           ng-click="addToQueue(item.file)">
+            Add to Queue
+        </ion-option-button>
+        <ion-option-button class="button-info"
+                           ng-click="edit(item)">
+            Add to Playlist
+        </ion-option-button>
+        <ion-reorder-button class="ion-navicon"
+                            on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+        </ion-reorder-button>
+    </ion-item>
+</ion-list>

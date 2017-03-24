@@ -16,6 +16,8 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
         $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
             $scope.player = MPDService.getPlayer();
+            console.log('enter event');
+            console.log($scope.player);
             if($scope.player) {
                 MPDService.status(function (status, server) {
                     onPlayerChange(status);

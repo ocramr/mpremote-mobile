@@ -1,7 +1,7 @@
 /**
  * Created by marco on 2/03/17.
  */
-function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, MPDService) {
+function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, $ionicListDelegate, MPDService) {
 
     // .fromTemplate() method
     const categories = ['playlist','artist','genre','album'];
@@ -52,6 +52,14 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         });*/
 
         //Listen for events
+        $scope.$on('onUpdate', function (event, data) {
+            if(data.event == 'playlist'){
+                $scope.$apply(function () {
+                   $scope.songList = data.mpd.playlist;
+                });
+            }
+        });
+
         $scope.$on('onDataReceived', function (event, data) {
             var updateList;
             switch(data.type){
@@ -98,6 +106,7 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
 
         $scope.addToQueue = function(song){
             MPDService.add(song, function () {
+                $ionicListDelegate.closeOptionButtons();
                 window.plugins.toast.show('Song added to queue', 'short', 'bottom');
             });
         };
