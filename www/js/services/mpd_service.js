@@ -87,10 +87,8 @@ module.exports = function($ionicPopup, $rootScope) {
         playAt: function (pos, callback) {
             mpd.playAt(pos, callback);
         },
-        add: function (element) {
-            mpd.add(element, function () {
-               console.log("added");
-            });
+        add: function (element, callback) {
+            mpd.add(element, callback);
         },
         volPlus: function () {
             var newVolume = parseInt(mpd.status.volume) + volume_interval;
@@ -125,7 +123,7 @@ module.exports = function($ionicPopup, $rootScope) {
         },
         searchSongs : function(type, search) {
             mpd.findRequest(type, search, function(data){
-                $rootScope.$broadcast('onResponseFindRequest', data);
+                $rootScope.$broadcast('onResponseFindRequest', {type: type, name: search, items: data});
             });
         },
         getPlaylistsSongs : function(name) {

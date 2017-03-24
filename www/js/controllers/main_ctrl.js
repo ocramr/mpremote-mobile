@@ -169,13 +169,6 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
         };
 
-        $scope.add = function (name) {
-            MPDService.add(name);
-            MPDService._updatePlaylist(function () {
-                //PLAYER.modules.playlist.loadSongs(mpd.playlist);
-            });
-        };
-
         $scope.volPlus = function () {
             console.log("plus");
             MPDService.volPlus();
