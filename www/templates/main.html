@@ -1,4 +1,8 @@
 <ion-view>
+  <ion-nav-buttons side="primary">
+    <a  ng-if="player" class="button button-icon ion-music-note" ui-sref="library"></a>
+    <a class="button button-icon ion-android-settings" ui-sref="settings"></a>
+  </ion-nav-buttons>
   <ion-content class="has-header" scroll="false">
         <div ng-if="player" class="has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">

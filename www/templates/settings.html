@@ -1,4 +1,7 @@
 <ion-view>
+    <ion-nav-buttons side="primary">
+        <a class="button button-icon ion-ios-home-outline" ui-sref="player"></a>
+    </ion-nav-buttons>
   <ion-content class="padding has-header">
     <div ng-if="player" class="col-md-6 col-md-offset-3" >
       <p>Vous &ecaron;tes connect&eacute; &agrave; {{player.host}}:{{player.port}}</p>
