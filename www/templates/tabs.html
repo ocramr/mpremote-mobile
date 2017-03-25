@@ -1,6 +1,6 @@
 <ion-view>
     <ion-nav-buttons side="primary">
-        <a class="button button-icon ion-ios-home-outline" ui-sref="player"></a>
+        <a class="button button-icon ion-home" ui-sref="player"></a>
         <a class="button button-icon ion-android-settings" ui-sref="settings"></a>
     </ion-nav-buttons>
     <ion-content scroll="true" class="has-header">
@@ -8,11 +8,9 @@
 
             <ion-slide-page ion-slide-tab-label="Queue"><div ng-include="'templates/library/queue.html'"></div></ion-slide-page>
             <ion-slide-page ion-slide-tab-label="Playlist"><div ng-include="'templates/library/playlists.html'"></div></ion-slide-page>
-            <ion-slide-page ion-slide-tab-label="Genres"><div ng-include="'templates/library/genres.html'"></div></ion-slide-page>
             <ion-slide-page ion-slide-tab-label="Artists"><div ng-include="'templates/library/artists.html'"></div></ion-slide-page>
             <ion-slide-page ion-slide-tab-label="Albums"><div ng-include="'templates/library/albums.html'"></div></ion-slide-page>
+            <ion-slide-page ion-slide-tab-label="Genres"><div ng-include="'templates/library/genres.html'"></div></ion-slide-page>
         </ion-slides>
     </ion-content>
 </ion-view>
-
-
