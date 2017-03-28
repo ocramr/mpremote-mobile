@@ -104,6 +104,9 @@ a h2 {
 .progress-bar {
   background: #99003a; }
 
+ion-header-bar {
+  background: #0e0e0e !important; }
+
 ion-slide {
   background-color: #f0f0f0; }
 
