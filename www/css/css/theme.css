@@ -17,6 +17,10 @@ button {
   text-transform: uppercase;
   transition: 0.5s; }
 
+* {
+  margin: 0;
+  padding: 0; }
+
 body {
   font-family: Calibri; }
 
@@ -87,9 +91,6 @@ header {
   .item .fa-trash {
     color: #99003a; }
 
-a h2 {
-  color: #99003a; }
-
 .notransition {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -106,6 +107,11 @@ a h2 {
 
 ion-header-bar {
   background: #0e0e0e !important; }
+
+.item .ion-edit {
+  padding: 12px !important; }
+.item .ng-pristine {
+  padding-top: 0px !important; }
 
 ion-slide {
   background-color: #f0f0f0; }

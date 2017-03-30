@@ -1,3 +1,7 @@
+* {
+    margin: 0;
+    padding: 0;
+}
 
 body{
     font-family: $fontContent;
@@ -91,12 +95,6 @@ header{
     }
 }
 
-a{
-    h2{
-        color: $colorSecondary1; //PROVISOIRE
-    }
-}
-
 .notransition {
     -webkit-transition: none !important;
     -moz-transition: none !important;
@@ -116,4 +114,13 @@ a{
 
 ion-header-bar{
     background: $colorBackground1 !important;
+}
+
+.item{
+    .ion-edit{
+        padding: 12px !important;
+    }
+    .ng-pristine{
+        padding-top: 0px !important;
+    }
 }
