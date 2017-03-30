@@ -84,13 +84,6 @@ header {
   color: #008e90;
   font-size: 2em; }
 
-.item {
-  padding: 10px 0; }
-  .item span {
-    cursor: pointer; }
-  .item .fa-trash {
-    color: #99003a; }
-
 .notransition {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -108,10 +101,28 @@ header {
 ion-header-bar {
   background: #0e0e0e !important; }
 
+.item h1 {
+  margin: 0;
+  padding: 5px 0; }
+.item .current_song {
+  color: #99003a; }
 .item .ion-edit {
   padding: 12px !important; }
 .item .ng-pristine {
   padding-top: 0px !important; }
+
+.item-button-right {
+  text-align: center;
+  padding: 16px 0; }
+
+.item-avatar {
+  text-align: center;
+  padding-left: 16px; }
+
+.display_settings {
+  text-align: center; }
+  .display_settings h2 {
+    color: #008e90; }
 
 ion-slide {
   background-color: #f0f0f0; }

@@ -85,15 +85,15 @@ header{
     font-size: 2em;
 }
 
-.item {
-    padding: 10px 0;
-    span{
-        cursor: pointer;
-    }
-    .fa-trash{
-        color: $colorSecondary1;
-    }
-}
+// .item {
+//     padding: 10px 0;
+//     span{
+//         cursor: pointer;
+//     }
+//     .fa-trash{
+//         color: $colorSecondary1;
+//     }
+// }
 
 .notransition {
     -webkit-transition: none !important;
@@ -117,10 +117,34 @@ ion-header-bar{
 }
 
 .item{
+    h1{
+        margin:0;
+        padding: 5px 0;
+    }
+    .current_song{
+        color: $colorSecondary1;
+    }
     .ion-edit{
         padding: 12px !important;
     }
     .ng-pristine{
         padding-top: 0px !important;
+    }
+}
+
+.item-button-right{
+    text-align: center;
+    padding: 16px 0;
+}
+
+.item-avatar{
+    text-align: center;
+    padding-left: 16px;
+}
+
+.display_settings{
+    text-align: center;
+    h2{
+        color: $colorPrincipal1;
     }
 }
