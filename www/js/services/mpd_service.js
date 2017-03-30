@@ -122,9 +122,16 @@ module.exports = function($ionicPopup, $rootScope) {
             }
         },
         searchSongs : function(type, search) {
-            mpd.findRequest(type, search, function(data){
-                $rootScope.$broadcast('onResponseFindRequest', {type: type, name: search, items: data});
-            });
+            if(type == 'playlist'){
+                mpd.playlistSongs(search, function(data){
+                    $rootScope.$broadcast('onResponseFindRequest', {type: type, name: search, items: data});
+                })
+            }else{
+                mpd.findRequest(type, search, function(data){
+                    $rootScope.$broadcast('onResponseFindRequest', {type: type, name: search, items: data});
+                });
+            }
+
         },
         getPlaylistsSongs : function(name) {
             mpd.playlistSongs(name, function(data){

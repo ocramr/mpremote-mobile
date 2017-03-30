@@ -22,7 +22,7 @@
                 </ion-option-button>
                 <ion-option-button class="button-info"
                                    ng-click="edit(item)">
-                    Add to Playlist
+                    {{isPlaylist ? 'Del from' : 'Add to'}} Playlist
                 </ion-option-button>
                 <ion-reorder-button class="ion-navicon"
                                     on-reorder="reorderItem(item, $fromIndex, $toIndex)">

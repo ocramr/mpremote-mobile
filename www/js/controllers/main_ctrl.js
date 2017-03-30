@@ -95,7 +95,9 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
                 $scope.$apply(function () {
                     $scope.time = currentSong.time;
                     $scope.counter = elapsed;
-                    $scope.player.currentSong = {name : currentSong.artist+ " - "+ currentSong.title
+                    $scope.player.currentSong = {
+                        artist: currentSong.artists || 'Unknown',
+                        title : currentSong.title || currentSong.file
                     };
                 });
                 if(playerStatus.state == 'play'){

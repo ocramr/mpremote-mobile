@@ -1,5 +1,9 @@
-<div class="list card">
-    <div ng-repeat="playlist in playlists" class="item item-button-right" ng-click="search(playlist)">
-        {{playlist}}
-    </div>
-</div>
+<ion-view>
+    <ion-content scroll="true">
+        <div class="list card">
+            <div ng-repeat="playlist in playlists" class="item item-button-right" ng-click="search('playlist',playlist)">
+                {{playlist}}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

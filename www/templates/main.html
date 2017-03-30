@@ -7,8 +7,8 @@
         <div ng-if="player" class="has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">
             <!--<img src="images/avatar_default.png">-->
-            <h2>{{player.currentSong.name}}</h2>
-            <p>{{player.currentSong.name}}</p>
+            <h2>{{player.currentSong.title}}</h2>
+            <p>{{player.currentSong.artist}}</p>
           </div>
 
           <div class="item item-image">
@@ -21,7 +21,7 @@
             </div>
             <div class="button-bar">
               <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>
-              <button id="pause" on-tap="playOrPause()" class="button icon fa fa-pause" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
+              <button id="pause" on-tap="playOrPause()" class="button icon fa" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
               <button  id="stop" on-tap="stop()" class="button icon fa fa-stop"></button>
               <button id="next" on-tap="next()" class="button icon fa fa-step-forward"></button>
             </div>
