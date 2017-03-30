@@ -1,33 +1,26 @@
 <ion-modal-view>
-
-
     <ion-header-bar class="bar bar-header bar-positive">
         <h1 class="title">Music List</h1>
         <button class="button button-clear button-primary" ng-click="modal.hide()">Close</button>
     </ion-header-bar>
     <ion-content class="padding">
-        <ion-list
-                  show-delete="false"
-                  show-reorder="false"
-                  can-swipe="true">
-            <ion-item ng-repeat="item in selectedCategory.items"
-                      class="item-thumbnail-left">
-
+        <ion-list show-delete="false" show-reorder="false" can-swipe="true">
+            <ion-item ng-repeat="item in selectedCategory.items" class="item-thumbnail-left">
                 <img src="images/disc_default.png">
                 <h2>{{item.artist}}</h2>
                 <p>{{item.title}}</p>
-                <ion-option-button class="button-positive"
-                                   ng-click="addToQueue(item.file)">
+                <!-- <img src="images/disc_default.png"> -->
+
+                <img src="images/right-arrow.png">
+                <ion-option-button class="button-positive" ng-click="addToQueue(item.file)">
                     Add to Queue
                 </ion-option-button>
-                <ion-option-button class="button-info"
-                                   ng-click="edit(item)">
+                <ion-option-button class="button-info" ng-click="edit(item)">
                     {{isPlaylist ? 'Del from' : 'Add to'}} Playlist
                 </ion-option-button>
-                <ion-reorder-button class="ion-navicon"
-                                    on-reorder="reorderItem(item, $fromIndex, $toIndex)">
+                <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                 </ion-reorder-button>
-
+            </ion-row>
             </ion-item>
         </ion-list>
     </ion-content>
