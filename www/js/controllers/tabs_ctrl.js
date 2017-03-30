@@ -84,14 +84,18 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
 
         $scope.$on('onResponseFindRequest', function(event, data){
             if(data.items.length > 0){
-                $scope.$apply(function(){
+                if(MPDService.getIsTest()){
                     $scope.selectedCategory = {type: data.type, name: data.name, items: data.items};
-                    //$scope.isPlaylist = false;
-                });
+                }else{
+                    $scope.$apply(function(){
+                        $scope.selectedCategory = {type: data.type, name: data.name, items: data.items};
+                        //$scope.isPlaylist = false;
+                    });
+                }
+
                 //console.log('selectedCategory');
                 //console.log($scope.selectedCategory);
                 $scope.isPlaylist = (data.type == 'playlist');
-                alert($scope.isPlaylist);
                 $scope.openModal();
             }else{
                 console.log('no data');
@@ -120,9 +124,32 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         $scope.$on('$ionicView.enter', function(){
             $scope.player = MPDService.getPlayer();
             $scope.songList = $scope.player.playlist;
-            categories.forEach(function (e) {
-                MPDService.searchMusicByType(e);
-            });
+            if(MPDService.getIsTest()){
+                categories.forEach(function (e) {
+                    switch(e){
+                    case 'artist': {
+                            $scope.artists = MPDService.searchMusicByType(e);
+                        }break;
+                    case 'album': {
+                            $scope.albums =MPDService.searchMusicByType(e);
+                        }break;
+                    case 'genre': {
+                            $scope.genres = MPDService.searchMusicByType(e);
+                        }break;
+                    case 'playlist':{
+                            $scope.playlists = MPDService.searchMusicByType(e);
+                        }break;
+                    default: {
+                            $scope.songs = MPDService.searchMusicByType(e);
+                        }
+                    }
+                });
+            }else{
+                categories.forEach(function (e) {
+                    MPDService.searchMusicByType(e);
+                });
+            }
+
         });
     });
 }

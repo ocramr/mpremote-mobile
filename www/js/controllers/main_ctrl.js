@@ -10,7 +10,6 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
 
         $scope.$on('$ionicView.loaded', function(){
             // Anything you can think of
-            console.log('main controlelr loaded');
         });
 
         $scope.$on('$ionicView.enter', function(){
@@ -18,11 +17,14 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
             $scope.player = MPDService.getPlayer();
             console.log('enter event');
             console.log($scope.player);
-            if($scope.player) {
-                MPDService.status(function (status, server) {
-                    onPlayerChange(status);
-                });
+            if(!MPDService.getIsTest()){
+                if($scope.player) {
+                    MPDService.status(function (status, server) {
+                        onPlayerChange(status);
+                    });
+                }
             }
+
         });
 
         $scope.seek = function (event) {
