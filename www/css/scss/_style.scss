@@ -85,15 +85,15 @@ header{
     font-size: 2em;
 }
 
-.item {
-    padding: 10px 0;
-    span{
-        cursor: pointer;
-    }
-    .fa-trash{
-        color: $colorSecondary1;
-    }
-}
+// .item {
+//     padding: 10px 0;
+//     span{
+//         cursor: pointer;
+//     }
+//     .fa-trash{
+//         color: $colorSecondary1;
+//     }
+// }
 
 .notransition {
     -webkit-transition: none !important;
@@ -117,10 +117,26 @@ ion-header-bar{
 }
 
 .item{
-    .ion-edit{
-        padding: 12px !important;
+    text-align: center;
+    h1{
+        margin:0;
+        padding: 5px 0;
     }
-    .ng-pristine{
-        padding-top: 0px !important;
+    // .ion-edit{
+    //     padding: 12px !important;
+    // }
+    // .ng-pristine{
+    //     padding-top: 0px !important;
+    // }
+}
+
+.item-avatar{
+    padding-left: 0;
+}
+
+.scroll{
+    text-align: center;
+    h2{
+        color: $colorSecondary1;
     }
 }

@@ -4,8 +4,8 @@
     </ion-nav-buttons>
   <ion-content class="padding has-header">
     <div ng-if="player" class="col-md-6 col-md-offset-3" >
-      <p>Vous &ecaron;tes connect&eacute; &agrave; {{player.host}}:{{player.port}}</p>
-      <button class="btn btn-default" on-tap="disconnect()">Se déconnecter</button>
+      <h2>Vous êtes connect&eacute; &agrave; {{player.host}}:{{player.port}}</h2>
+      <button class="button button-block" on-tap="disconnect()">Se déconnecter</button>
     </div>
     <div ng-if="!player" class="list list-inset">
         <h3>Saisir les données du serveur</h3>

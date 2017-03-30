@@ -84,13 +84,6 @@ header {
   color: #008e90;
   font-size: 2em; }
 
-.item {
-  padding: 10px 0; }
-  .item span {
-    cursor: pointer; }
-  .item .fa-trash {
-    color: #99003a; }
-
 .notransition {
   -webkit-transition: none !important;
   -moz-transition: none !important;
@@ -108,10 +101,19 @@ header {
 ion-header-bar {
   background: #0e0e0e !important; }
 
-.item .ion-edit {
-  padding: 12px !important; }
-.item .ng-pristine {
-  padding-top: 0px !important; }
+.item {
+  text-align: center; }
+  .item h1 {
+    margin: 0;
+    padding: 5px 0; }
+
+.item-avatar {
+  padding-left: 0; }
+
+.scroll {
+  text-align: center; }
+  .scroll h2 {
+    color: #99003a; }
 
 ion-slide {
   background-color: #f0f0f0; }
