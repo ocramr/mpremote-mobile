@@ -16,21 +16,13 @@
                     <ion-option-button class="button-positive" ng-click="addToQueue(item.file)">
                         Add to Queue
                     </ion-option-button>
-                    <ion-option-button class="button-info" ng-click="openPopover($event, item)">
+                    <ion-option-button class="button-info" ncg-click="openPopover($event, item)">
                         {{isPlaylist ? 'Del from' : 'Add to'}} Playlist
                     </ion-option-button>
                     <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                     </ion-reorder-button>
                 </ion-item>
-                <!--{{selectedSong.index}}--
-                {{$index}}
-                <ion-item ng-repeat="playlist in playlists" ng-show="selectedSong.index == $parent.$index" class="item-accordion"
-                          >
-                    {{playlist}}  -- {{selectedSong.index}} -- {{$parent.$index}}
-                </ion-item>-->
             </div>
-
-
         </ion-list>
 
     </ion-content>

@@ -3,7 +3,6 @@
  */
 function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, $ionicListDelegate, MPDService) {
 
-    // .fromTemplate() method
     const categories = ['playlist','artist','genre','album', 'allSongs'];
 
     $ionicPlatform.ready(function() {
