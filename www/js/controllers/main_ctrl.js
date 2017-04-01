@@ -7,7 +7,7 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
     $ionicPlatform.ready(function() {
 
         //modal
-        $ionicModal.fromTemplateUrl('templates/queue.html', {
+        $ionicModal.fromTemplateUrl('templates/queueModal.html', {
             scope: $scope,
             animation: 'slide-in-up'
         }).then(function(modal) {
@@ -160,6 +160,10 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
                 $scope.$apply(function () {
                     $scope.player.status = data.mpd.status;
                 });
+            }else if(data.event =='playlist'){
+                $scope.$apply(function () {
+                   $scope.player.playlist = data.mpd.playlist;
+                });
             }
         });
 
@@ -185,6 +189,12 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
             $ionicListDelegate.closeOptionButtons();
             MPDService.playAt(pos, function () {
                 $scope.closeModal();
+            });
+        };
+
+        $scope.delete = function(position){
+            MPDService.delete(position, function () {
+                $ionicListDelegate.closeOptionButtons();
             });
         };
 

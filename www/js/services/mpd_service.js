@@ -27,11 +27,9 @@ module.exports = function($ionicPopup, $rootScope) {
             mpd = new MPD({host: host, port : port});
             mpd.on('ready', function () {
                 sucessCallback();
-               /* $rootScope.$broadcast('onConnect', {server:
-                    {host: mpd.host, port: mpd.port, isConnected: true, playlist: mpd.playlist}});*/
             });
             mpd.on('update', function (updated) {
-                console.log(updated);
+                //console.log(updated);
                 $rootScope.$broadcast('onUpdate', {mpd: mpd, event: updated});
             });
 
@@ -89,6 +87,9 @@ module.exports = function($ionicPopup, $rootScope) {
         },
         add: function (element, callback) {
             mpd.add(element, callback);
+        },
+        delete : function (position, callback) {
+            mpd.delete(position, callback);
         },
         volPlus: function () {
             var newVolume = parseInt(mpd.status.volume) + volume_interval;

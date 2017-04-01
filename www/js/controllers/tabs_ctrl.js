@@ -14,15 +14,33 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         }).then(function(modal) {
             $scope.modal = modal;
         });
+
+        $ionicPopover.fromTemplateUrl('templates/playlistPopover.html', {
+            scope: $scope,
+        }).then(function(popover) {
+            $scope.popover = popover;
+        });
+
         $scope.openModal = function() {
             $scope.modal.show();
         };
         $scope.closeModal = function() {
             $scope.modal.hide();
         };
+        $scope.openPopover = function ($event, song) {
+          $scope.songOnPopover = song;
+          $scope.popover.show($event);
+        };
+
+        $scope.closePopover = function () {
+            $scope.popover.hide();
+            angular.element(document.body).removeClass('popover-open');
+            delete $scope.songOnPopover;
+        };
         // Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function() {
             $scope.modal.remove();
+            $scope.popover.remove();
         });
         // Execute action on hide modal
         $scope.$on('modal.hidden', function() {
@@ -33,13 +51,15 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
             // Execute action
         });
 
-        //Listen for events
-        $scope.$on('onUpdate', function (event, data) {
-            if(data.event == 'playlist'){
-                $scope.$apply(function () {
-                   $scope.songList = data.mpd.playlist;
-                });
-            }
+        // Execute action on hide modal
+        $scope.$on('popover.hidden', function() {
+            // Execute action
+            console.log('popover hidden');
+        });
+        // Execute action on remove modal
+        $scope.$on('popover.removed', function() {
+            // Execute action
+            console.log('popover removed');
         });
 
         $scope.$on('onDataReceived', function (event, data) {
@@ -70,10 +90,7 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
                     $scope.selectedCategory = {type: data.type, name: data.name, items: data.items};
                     //$scope.isPlaylist = false;
                 });
-                //console.log('selectedCategory');
-                //console.log($scope.selectedCategory);
                 $scope.isPlaylist = (data.type == 'playlist');
-                alert($scope.isPlaylist);
                 $scope.openModal();
             }else{
                 console.log('no data');
@@ -97,6 +114,14 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
 
         $scope.search = function (type, criteria) {
             MPDService.searchSongs(type, criteria);
+        };
+
+        $scope.addSongToPlaylist = function(playlist) {
+            console.log(playlist);
+            MPDService.addSongToPlaylist(playlist, $scope.songOnPopover.file);
+            $scope.closePopover();
+            $ionicListDelegate.closeOptionButtons();
+            window.plugins.toast.show('Song added to playlist '+playlist, 'short', 'bottom');
         };
 
         $scope.$on('$ionicView.enter', function(){

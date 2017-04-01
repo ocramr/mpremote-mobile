@@ -5,6 +5,14 @@
   <ion-content class="padding has-header">
     <div ng-if="player" class="col-md-6 col-md-offset-3 display_settings" >
       <h2>Vous êtes connect&eacute; &agrave; {{player.host}}:{{player.port}}</h2>
+        <h3 class="text-center">Stats:</h3>
+        <ul class="center-block">
+            <li>Port: {{player.port}}</li>
+            <li>Musiques dans la queue: {{player.playlist.length}}</li>
+            <li>State: {{player.status.state}}</li>
+            <li>Random: {{player.status.random ? 'On' : 'Off'}}</li>
+            <li>Repeat: {{player.status.repeat ? 'On' : 'Off'}}</li>
+        </ul>
       <button class="button button-block" on-tap="disconnect()">Se déconnecter</button>
     </div>
     <div ng-if="!player" class="list list-inset">

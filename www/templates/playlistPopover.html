@@ -1,0 +1,9 @@
+<ion-popover-view>
+    <ion-content scroll="true">
+        <div class="list">
+            <div ng-repeat="playlist in playlists" class="item item-button-right" ng-click="addSongToPlaylist(playlist, item, $parent.item)">
+                {{playlist}}
+            </div>
+        </div>
+    </ion-content>
+</ion-popover-view>

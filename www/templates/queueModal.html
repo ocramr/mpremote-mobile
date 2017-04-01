@@ -42,7 +42,7 @@
                 <ion-option-button class="button-balanced" ng-click="playAt($index)">
                     Play it!
                 </ion-option-button>
-                <ion-option-button class="button-positive" ng-click="remove(item.file)">
+                <ion-option-button ng-hide="player.status.state == 'play' && $index==player.status.song" class="button-positive" ng-click="delete($index)">
                     Remove
                 </ion-option-button>
                 <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">

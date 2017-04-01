@@ -43,4 +43,5 @@
   </platform>
   <plugin name="cz.blocshop.socketsforcordova" spec="~1.1.0"/>
   <plugin name="cordova-plugin-x-toast" spec="~2.6.0"/>
+  <allow-navigation href="http://192.168.43.98:8100"/>
 </widget>
