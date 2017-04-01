@@ -7,10 +7,10 @@
 // 'starter.controllers' is found in controllers.js
 
 var angular = require("angular");
-var app = angular.module('starter', ['ionic']);
+var app = angular.module('starter', ['ionic', 'ion-floating-menu']);
 app.config(['$stateProvider', '$urlRouterProvider', require('./config').router]);
 app.run(['$ionicPlatform', require('./config').run]);
 app.service('MPDService', ['$ionicPopup','$rootScope', require('./services/mpd_service')]);
-app.controller('MainCtrl', ['$scope', '$ionicPlatform', '$timeout', 'MPDService', require('./controllers/main_ctrl')]);
+app.controller('MainCtrl', ['$scope', '$ionicPlatform', '$timeout', '$ionicModal', '$ionicListDelegate','MPDService', require('./controllers/main_ctrl')]);
 app.controller('SettingsCtrl', ['$scope', '$ionicPlatform', '$location', 'MPDService', require('./controllers/settings_ctrl')]);
 app.controller('TabsCtrl', ['$scope', '$ionicPlatform', '$location', '$ionicPopover', '$ionicModal','$ionicListDelegate','MPDService', require('./controllers/tabs_ctrl')]);

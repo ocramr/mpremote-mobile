@@ -32,24 +32,6 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         $scope.$on('modal.removed', function() {
             // Execute action
         });
-       /* $scope.popover = $ionicPopover.fromTemplateUrl('templates/actionPopover.html', {
-            scope: $scope
-        }).then(function(popover) {
-            $scope.popover = popover;
-        });
-
-        $scope.openPopover = function($event) {
-            $scope.popover.show($event);
-        };
-
-        $scope.closePopover = function() {
-            $scope.popover.hide();
-        };
-
-        //Cleanup the popover when we're done with it!
-        $scope.$on('$destroy', function() {
-            $scope.popover.remove();
-        });*/
 
         //Listen for events
         $scope.$on('onUpdate', function (event, data) {
@@ -119,7 +101,6 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
 
         $scope.$on('$ionicView.enter', function(){
             $scope.player = MPDService.getPlayer();
-            $scope.songList = $scope.player.playlist;
             categories.forEach(function (e) {
                 MPDService.searchMusicByType(e);
             });

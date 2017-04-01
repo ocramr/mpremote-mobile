@@ -3,6 +3,8 @@
     <a  ng-if="player" class="button button-icon ion-music-note" ui-sref="library"></a>
     <a class="button button-icon ion-android-settings" ui-sref="settings"></a>
   </ion-nav-buttons>
+  <ion-floating-button click="openModal()" has-footer="true" button-color="#008e90" icon="ion-headphone" icon-color="#fff">
+  </ion-floating-button>
   <ion-content class="has-header" scroll="false">
         <div ng-if="player" class="has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">

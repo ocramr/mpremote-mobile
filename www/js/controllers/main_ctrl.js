@@ -1,17 +1,43 @@
 /**
  * Created by marco on 2/03/17.
  */
-function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
+function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDelegate, MPDService) {
 
     $scope.divide = 0;
     $ionicPlatform.ready(function() {
 
-
+        //modal
+        $ionicModal.fromTemplateUrl('templates/queue.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) {
+            $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+            $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+            $scope.modal.hide();
+        };
+        // Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function() {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function() {
+            // Execute action
+        });
 
         $scope.$on('$ionicView.loaded', function(){
             // Anything you can think of
             console.log('main controlelr loaded');
         });
+
+
 
         $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
@@ -153,7 +179,13 @@ function main_ctrl($scope, $ionicPlatform, $timeout,  MPDService) {
             }else{
                 MPDService.play();
             }
+        };
 
+        $scope.playAt = function (pos) {
+            $ionicListDelegate.closeOptionButtons();
+            MPDService.playAt(pos, function () {
+                $scope.closeModal();
+            });
         };
 
         $scope.next = function () {
