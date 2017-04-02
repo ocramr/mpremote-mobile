@@ -17,6 +17,9 @@ button {
   text-transform: uppercase;
   transition: 0.5s; }
 
+#floatting-button {
+  bottom: 150px !important; }
+
 * {
   margin: 0;
   padding: 0; }
@@ -101,9 +104,9 @@ header {
 ion-header-bar {
   background: #0e0e0e !important; }
 
-.item h1 {
+.item h2 {
   margin: 0;
-  padding: 5px 0; }
+  color: #008e90; }
 .item .current_song {
   color: #99003a; }
 .item .ion-edit {
