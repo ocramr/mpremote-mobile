@@ -9,17 +9,16 @@
         <div ng-if="player" class="has-footer" >
           <div ng-if="player && player.currentSong" class="item item-avatar">
             <!--<img src="images/avatar_default.png">-->
-            <h1>{{player.currentSong.title}}</h1>
+            <h1>{{player.currentSong.title || player.currentSong.file}}</h1>
             <p class="current_song">{{player.currentSong.artist}}</p>
           </div>
 
           <div class="item item-image">
             <img src="images/disc_default.png">
           </div>
-
           <ion-footer-bar align-title="center" class="bar-light">
-            <div class="item range range-positive">
-              <input type="range" name="volume" min="0" max="100" ng-model="divide">
+            <div class=" item range range-positive">
+              <input id="timer" type="range" name="volume" min="0" max="{{player.timer.time}}" ng-model="player.timer.counter" on-release="seek(player.timer.counter)">
             </div>
             <div class="button-bar">
               <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>

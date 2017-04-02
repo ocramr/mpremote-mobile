@@ -1,18 +1,45 @@
 /**
  * Created by marco on 2/03/17.
  */
-module.exports = function($ionicPopup, $rootScope) {
-
-    // An alert dialog
-    var showAlert = function (message) {
-        var alertPopup = $ionicPopup.alert({
-            title: 'Message',
-            template: message
-        });
-    };
+module.exports = function($ionicPopup, $rootScope, $timeout) {
 
     const filterEmpty = function (e) {
         return e && e!='';
+    };
+
+    const stopCounter = function(player){
+        $timeout.cancel(player.promiseTimeout);
+    };
+
+    const onTimeout = function(player){
+        //counter = valeur, soit 0 soit le temps qui a passé en jouant la musique (on l'obtient et on le set de $scope.player.status.time.elapsed)
+
+        if(player.timer.counter < player.timer.time){
+            player.promiseTimeout  = $timeout(function () {
+                onTimeout(player);
+            },1000);
+            player.timer.counter++;
+        }
+    };
+
+    const checkStatus = function (player) {
+        console.log("checkstatus");
+        console.log(player);
+        if(player.status.state =='play'){
+            player.currentSong = player.playlist[player.status.song];
+            if((player.previousStatus.songId != -1 && player.previousStatus.songId != player.status.song) || player.previousStatus.state != 'pause') {
+                stopCounter(player);
+            }
+            /*if(player.previousStatus.state == 'stop' || player.previousStatus.songId != player.status.song){
+                notifyMsg('play', {music: player.currentSong.artist+" - "+player.currentSong.title, host: player.host});
+            }*/
+            player.previousStatus.songId = player.status.song;
+            player.previousStatus.state = player.status.state;
+            onTimeout(player);
+        }else{
+            stopCounter(player);
+            player.previousStatus.state = player.status.state;
+        }
     };
 
     var MPDJS = require('../../mpd/MPDJS.js');
@@ -25,21 +52,28 @@ module.exports = function($ionicPopup, $rootScope) {
         },
         connect : function (host, port, sucessCallback) {
             mpd = new MPD({host: host, port : port});
-            mpd.on('ready', function () {
-                sucessCallback();
-            });
+
             mpd.on('update', function (updated) {
                 //console.log(updated);
-                $rootScope.$broadcast('onUpdate', {mpd: mpd, event: updated});
-            });
+                if(updated =='player'){
+                    this.timer.time = (this.status.time) ? this.status.time.length : 0;
+                    this.timer.counter = (this.status.time) ? this.status.time.elapsed : 0;
+                    checkStatus(this);
+                }else{
+                    $rootScope.$broadcast('onUpdate', {mpd: mpd, event: updated});
+                }
 
-            mpd.connect(function (message) {
-                //showAlert(message);
-                sucessCallback();
-            }, function (message) {
-                mpd = undefined;
-                //showAlert(message);
             });
+            mpd.on('ready', function () {
+                this.timer = {
+                    time: (this.status.time) ? this.status.time.length : 0,
+                    counter: (this.status.time) ? this.status.time.elapsed : 0,
+                };
+                this.previousStatus = {state : this.status.state, songId: this.status.song || -1};
+                checkStatus(this);
+                sucessCallback();
+            });
+            mpd.connect();
 
         },
         disconnect: function (callback) {

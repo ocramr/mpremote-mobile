@@ -3,7 +3,6 @@
  */
 function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDelegate, MPDService) {
 
-    $scope.divide = 0;
     $ionicPlatform.ready(function() {
 
         //modal
@@ -44,106 +43,14 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
             $scope.player = MPDService.getPlayer();
             console.log('enter event');
             console.log($scope.player);
-            if($scope.player) {
-                MPDService.status(function (status, server) {
-                    onPlayerChange(status);
-                });
-            }
         });
 
-        $scope.seek = function (event) {
-            var fullProgressBarWidth = $(e.currentTarget).width();
-            var requestedPosition = e.offsetX / fullProgressBarWidth;
-            var seekTime = Math.ceil($scope.time*requestedPosition);
-            MPDService.seek(seekTime);
-        };
-        //ici on va stocker la dernier musique jouée et la dernier action fait, pour pouvoir controller le pause, stop, et surtout le "next"
-        //pour savoir quand redémarrer le timer
-        var actualStatus = {actualSongId : -1};
-        //$scope.progressPercent = 0;
-        /**
-         * Fonction qui s'éxecute quand le controller charge (après le chargement du DOM, voir $timeout)
-         */
-
-        const stopCounter = function(){
-            //divide = pourcentage par rapport à la durée de la musique, pour le width du progress-bar
-            $scope.$apply(function () {
-                $scope.divide = $scope.counter*100/$scope.time;
-            });
-            $timeout.cancel(mytimeout);
+        $scope.seek = function (dummycounter) {
+            var element = angular.element(document.querySelector('#timer'))[0];;
+            var newTime = element.value;
+            MPDService.seek(newTime);
         };
 
-        const onTimeout = function(){
-            //divide = pourcentage par rapport à la durée de la musique, pour le width du progress-bar
-            //counter = valeur, soit 0 soit le temps qui a passé en jouant la musique (on l'obtient et on le set de $scope.player.status.time.elapsed)
-            if($scope.counter < $scope.time){
-                $scope.counter++;
-                $scope.divide = $scope.counter*100/$scope.time;
-                mytimeout = $timeout(onTimeout,1000);
-            }
-        };
-
-        const restart = function () {
-            stopCounter();
-            onTimeout();
-        };
-
-        var mytimeout = $timeout(onTimeout,1000);
-
-        /*$scope.seek = function (e) {
-            var fullProgressBarWidth = $(e.currentTarget).width();
-            var requestedPosition = e.offsetX / fullProgressBarWidth;
-            var seekTime = Math.ceil($scope.time*requestedPosition);
-            MPDService.seek(seekTime);
-        };*/
-
-        /**
-         * Fonction qui écoute les évenements du player (play,stop,pause) Pour mettre à jour la vue
-         */
-        const onPlayerChange = function (playerStatus) {
-
-            //Si lorsqu'on se connecte, le player est en "stop", on rédemarre le counter(nro de seconds passés)
-            if(!playerStatus)   playerStatus = $scope.player.status;
-
-            if(playerStatus.state == 'stop'){
-                actualStatus.state = playerStatus.state;
-                actualStatus.actualSongId = playerStatus.song;
-                $scope.counter = 0;
-                stopCounter();
-            }else{
-                //Si lorsqu'on se connecte, le player est en "play" ou "pause" on mettre à jour le titre de la musique dans la vue
-                // et on maj le temps qui avait passé
-                var currentSong = $scope.player.playlist[playerStatus.song];
-                var elapsed = 0;
-                if(playerStatus.time !== undefined){
-                    elapsed = playerStatus.time.elapsed;
-                }
-                $scope.$apply(function () {
-                    $scope.time = currentSong.time;
-                    $scope.counter = elapsed;
-                    $scope.player.currentSong = {
-                        artist: currentSong.artists || 'Unknown',
-                        title : currentSong.title || currentSong.file
-                    };
-                });
-                if(playerStatus.state == 'play'){
-                    //si actualSongId == -1 -> C'est nous qui commençons a jouer, alors on "commence"
-                    //du counter qu'on avaut, 0 si actualSongId == -1, le temps joué si on avait fait "pause"
-                    if(actualStatus.state == 'pause'){
-                        onTimeout();
-                    }else{
-                        //Si actualSongId != -1, qqn avait sélectionné "next", il faut rédemarrer le timer");
-                        restart();
-                    }
-                    actualStatus.state = playerStatus.state;
-                    actualStatus.actualSongId = playerStatus.song;
-                }else if (playerStatus.state == 'pause') {
-                    actualStatus.state = playerStatus.state;
-                    actualStatus.actualSongId = playerStatus.song;
-                    stopCounter(true);
-                }
-            }
-        };
 
         /**
          * Cette événement est appellé depuis le service quand qq condition a changé depuis le serveur mpd
@@ -153,9 +60,11 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
          */
         $scope.$on('onUpdate', function (event, data) {
             console.log(data.event);
-            if(data.event == 'player'){
-                onPlayerChange();
-            }else if(data.event == 'options'){
+            /*if(data.event == 'player'){
+                $scope.player.timer.time = (this.status.time) ? this.status.time.length : 0;
+                $scope.player.timer.counter = (this.status.time) ? this.status.time.elapsed : 0;
+                //onPlayerChange();
+            }else */if(data.event == 'options'){
                 //on met à jout le status pour montrer si on a sélectionné random/repeat
                 $scope.$apply(function () {
                     $scope.player.status = data.mpd.status;
@@ -169,7 +78,7 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
 
         $scope.$on('onDisconnect', function(event, data){
             $scope.counter= 0;
-            stopCounter();
+            //stopCounter();
             $scope.player = null;
         });
 
