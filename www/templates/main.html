@@ -25,7 +25,7 @@
 
   </ion-content>
   <ion-footer-bar ng-if="player">
-    <div class="item range range-positive">
+    <div class="range range-positive">
       <input id="timer" type="range" name="volume" min="0" max="{{player.timer.time}}" ng-model="player.timer.counter" on-release="seek(player.timer.counter)">
     </div>
     <div class="bar bar-subfooter">

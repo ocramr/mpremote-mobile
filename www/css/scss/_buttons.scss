@@ -21,6 +21,15 @@ button{
     transition: 0.5s;
 }
 
-#floatting-button{
-    bottom: 150px !important;
+.button{
+    background: #fff;
+}
+
+.bar-footer{
+    height: 57px;
+    border: none;
+}
+.bar-subfooter {
+    bottom: 55px;
+    height: 55px;
 }
