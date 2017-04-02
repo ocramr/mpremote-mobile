@@ -73,7 +73,11 @@ module.exports = function($ionicPopup, $rootScope, $timeout) {
                 checkStatus(this);
                 sucessCallback();
             });
-            mpd.connect();
+            mpd.connect(function (successMessage) {
+                console.log(successMessage);
+            }, function (errorMessage) {
+                console.log(errorMessage);
+            });
 
         },
         disconnect: function (callback) {
