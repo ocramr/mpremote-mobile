@@ -425,6 +425,9 @@ function MPDJS() {
                     case "repeat":
                         this.status.repeat = (value === "1");
                         break;
+                    case "random":
+                        this.status.random = (value === "1");
+                        break;
                     case "single":
                         this.status.single = (value === "1");
                         break;

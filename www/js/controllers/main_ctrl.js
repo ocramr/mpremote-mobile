@@ -116,6 +116,15 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
         $scope.stop = function () {
             MPDService.stop();
         };
+
+        $scope.random = function () {
+            MPDService.random();
+        };
+
+        $scope.repeat = function () {
+            MPDService.repeat();
+        };
+
         $scope.clear = function () {
             MPDService.clear();
             MPDService._updatePlaylist(function () {

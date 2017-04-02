@@ -100,6 +100,17 @@ module.exports = function($ionicPopup, $rootScope, $timeout) {
                 console.log('paused');
             });
         },
+        random: function () {
+            mpd.random(mpd.status.random == 0 ? 1 : 0, function () {
+                console.log(mpd.status);
+            });
+        },
+
+        repeat: function () {
+            mpd.repeat(mpd.status.repeat == 0 ? 1 : 0, function () {
+                console.log(mpd.status);
+            });
+        },
         prev : function () {
             mpd.prev(function () {
                console.log("prev");
