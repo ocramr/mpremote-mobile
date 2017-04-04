@@ -92,7 +92,7 @@ header {
     color: #99003a; }
 
 .btn-selected {
-  color: #99003a; }
+  color: #99003a !important; }
 
 #settings {
   color: #008e90;

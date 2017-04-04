@@ -59,9 +59,9 @@ module.exports = function($ionicPopup, $rootScope, $timeout) {
                     this.timer.time = (this.status.time) ? this.status.time.length : 0;
                     this.timer.counter = (this.status.time) ? this.status.time.elapsed : 0;
                     checkStatus(this);
-                }else{
-                    $rootScope.$broadcast('onUpdate', {mpd: mpd, event: updated});
                 }
+                $rootScope.$broadcast('onUpdate', {mpd: this, event: updated});
+
 
             });
             mpd.on('ready', function () {

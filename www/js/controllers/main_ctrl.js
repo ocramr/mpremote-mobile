@@ -60,12 +60,15 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
          */
         $scope.$on('onUpdate', function (event, data) {
             console.log(data.event);
-            /*if(data.event == 'player'){
-                $scope.player.timer.time = (this.status.time) ? this.status.time.length : 0;
-                $scope.player.timer.counter = (this.status.time) ? this.status.time.elapsed : 0;
-                //onPlayerChange();
-            }else */if(data.event == 'options'){
+            if(data.event == 'player'){
+                $scope.$apply(function () {
+                    $scope.player.status = data.mpd.status;
+                });
+
+            }else if(data.event == 'options'){
                 //on met à jout le status pour montrer si on a sélectionné random/repeat
+                console.log('on updated');
+                console.log(data.mpd);
                 $scope.$apply(function () {
                     $scope.player.status = data.mpd.status;
                 });
@@ -78,7 +81,6 @@ function main_ctrl($scope, $ionicPlatform, $timeout, $ionicModal, $ionicListDele
 
         $scope.$on('onDisconnect', function(event, data){
             $scope.counter= 0;
-            //stopCounter();
             $scope.player = null;
         });
 

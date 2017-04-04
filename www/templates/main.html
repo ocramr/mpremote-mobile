@@ -21,8 +21,6 @@
 
       </div>
     </div>
-
-
   </ion-content>
   <ion-footer-bar ng-if="player">
     <div class="range range-positive">
@@ -33,12 +31,12 @@
         <button id="volMinus" on-tap="volMinus()" class="button fa fa-volume-down"></button>
         <button  id="volPlus" on-tap="volPlus()" class="button fa fa-volume-up"></button>
         <button ng-class="{'btn-selected': player.status.repeat}" id="repeat"  ng-click="repeat()" class="button fa fa-repeat"></button>
-        <button ng-class="{'btn-selected': player.status.random}" id="random" ng-click="random()" class="button fa fa-random"></button>
+        <button class="button fa fa-random" ng-class="{'btn-selected' : player.status.random}" id="random" ng-click="random()" ></button>
       </div>
     </div>
     <div class="button-bar">
     <button  id="prev" on-tap="prev()" class="button icon fa fa-step-backward"></button>
-    <button id="pause" on-tap="playOrPause()" class="button icon fa" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
+    <button id="playPause" on-tap="playOrPause()" class="button icon fa" ng-class="player.status.state == 'play' ? 'fa-pause': 'fa-play'"></button>
     <button  id="stop" on-tap="stop()" class="button icon fa fa-stop"></button>
     <button id="next" on-tap="next()" class="button icon fa fa-step-forward"></button>
   </div>
