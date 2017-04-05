@@ -1,7 +1,7 @@
 /**
  * Created by marco on 2/03/17.
  */
-function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, $ionicListDelegate, MPDService) {
+function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal, $ionicPopup, $ionicListDelegate, MPDService) {
 
     const categories = ['playlist','artist','genre','album', 'allSongs'];
 
@@ -44,6 +44,7 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         // Execute action on hide modal
         $scope.$on('modal.hidden', function() {
             // Execute action
+            $scope.isPlaylist = false;
         });
         // Execute action on remove modal
         $scope.$on('modal.removed', function() {
@@ -53,13 +54,29 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
         // Execute action on hide modal
         $scope.$on('popover.hidden', function() {
             // Execute action
+            angular.element(document.body).removeClass('popover-open');
             console.log('popover hidden');
+
         });
         // Execute action on remove modal
         $scope.$on('popover.removed', function() {
             // Execute action
+            angular.element(document.body).removeClass('popover-open');
             console.log('popover removed');
         });
+
+        $scope.showNewPlaylistBox  = function () {
+            $ionicPopup.prompt({
+                title: 'Créer Playlist',
+                subTitle: 'Nom du playlist',
+                inputType: 'text',
+                inputPlaceholder: 'Nom du playlist'
+            }).then(function(res) {
+               if(res !== undefined && res.trim().length>0){
+                   $scope.addPlaylist(res);
+               }
+            });
+        };
 
         $scope.$on('onDataReceived', function (event, data) {
             var updateList;
@@ -122,6 +139,31 @@ function tabs_ctrl($scope, $ionicPlatform, $location, $ionicPopover, $ionicModal
             $ionicListDelegate.closeOptionButtons();
             window.plugins.toast.show('Song added to playlist '+playlist, 'short', 'bottom');
         };
+
+        $scope.deleteFromPlaylist = function (playlist, index) {
+            MPDService.deleteSongFromPlaylist(playlist, index);
+            $ionicListDelegate.closeOptionButtons();
+            $scope.selectedCategory.items.splice(index,1);
+            window.plugins.toast.show('Song deleted from playlist', 'short', 'bottom');
+
+        };
+
+        $scope.addPlaylist = function(name){
+            MPDService.addPlaylist(name, function(response){
+                if(response != "OK"){
+                    console.log("playlist deja existante!");
+                }else{
+                    $scope.playlists.push(name);
+                }
+            });
+        };
+
+        $scope.$on('onUpdate', function (event, data) {
+            $scope.$apply(function () {
+                console.log('just updated');
+                $scope.player = data.mpd;
+            });
+        });
 
         $scope.$on('$ionicView.enter', function(){
             $scope.player = MPDService.getPlayer();

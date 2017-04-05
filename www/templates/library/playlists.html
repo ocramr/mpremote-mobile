@@ -1,4 +1,6 @@
 <ion-view>
+    <ion-floating-button click="showNewPlaylistBox()" button-color="#008e90" bottom="100px" icon="ion-plus" icon-color="#fff">
+    </ion-floating-button>
     <ion-content scroll="true">
         <div class="list card">
             <div ng-repeat="playlist in playlists" class="item item-button-right" ng-click="search('playlist',playlist)">

@@ -23,8 +23,6 @@ module.exports = function($ionicPopup, $rootScope, $timeout) {
     };
 
     const checkStatus = function (player) {
-        console.log("checkstatus");
-        console.log(player);
         if(player.status.state =='play'){
             player.currentSong = player.playlist[player.status.song];
             if((player.previousStatus.songId != -1 && player.previousStatus.songId != player.status.song) || player.previousStatus.state != 'pause') {
@@ -188,9 +186,9 @@ module.exports = function($ionicPopup, $rootScope, $timeout) {
                 $rootScope.$broadcast('onPlaylistSongsReceived', data);
             })
         },
-        addPlaylist : function(name) {
+        addPlaylist : function(name, callback) {
             mpd.newPlaylist(name, function(response){
-                return response;
+                callback(response);
             });
         },
         removePlaylist : function(name) {

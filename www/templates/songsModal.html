@@ -16,8 +16,11 @@
                     <ion-option-button class="button-positive" ng-click="addToQueue(item.file)">
                         Add to Queue
                     </ion-option-button>
-                    <ion-option-button class="button-info" ng-click="openPopover($event, item)">
-                        {{isPlaylist ? 'Del from' : 'Add to'}} Playlist
+                    <ion-option-button ng-if="isPlaylist" class="button-info" ng-click="deleteFromPlaylist(selectedCategory.name, $index)">
+                        Del from Playlist
+                    </ion-option-button>
+                    <ion-option-button ng-if="!isPlaylist" class="button-info" ng-click="openPopover($event, item)">
+                        Add to Playlist
                     </ion-option-button>
                     <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)">
                     </ion-reorder-button>
