@@ -8,27 +8,31 @@ function settings_ctrl($scope, $ionicPlatform, $location, MPDService) {
 
         $scope.$on('$ionicView.loaded', function(){
             // Anything you can think of
-            console.log('settings controlelr loaded');
+            console.log('settings controller loaded');
         });
 
         $scope.$on('$ionicView.enter', function(){
             // Anything you can think of
-            console.log('settings controlelr enter');
+            console.log('settings controller enter');
         });
 
         $scope.player = MPDService.getPlayer();
 
-        const defaultIp = '192.168.43.98';
-        const defaultPort = 6600;
+
 
         $scope.connect = function (connectionParams) {
-            var ip = (connectionParams && connectionParams.host) ? connectionParams.host : defaultIp;
-            var port = (connectionParams && connectionParams.port) ? connectionParams.port : defaultPort;
-            MPDService.connect(ip, port, function () {
-                $scope.$apply(function () {
-                    $location.path('/main');
-                })
-            });
+            if(connectionParams != undefined && connectionParams.host != undefined && connectionParams.host.trim().length > 0){
+                var port = connectionParams.port || 6600;
+                MPDService.connect(connectionParams.host, port, function () {
+                    $scope.$apply(function () {
+                        $location.path('/main');
+                    })
+                });
+            }else{
+                console.log('empty data');
+            }
+
+
         };
 
         $scope.disconnect = function () {
